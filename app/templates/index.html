@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HouseHunters</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">HouseHunters</h1>
+            </div>
+
+            <div class="sidebar-content">
+                <!-- URL Input -->
+                <div class="form-group">
+                    <label for="zillow-url">Zillow URL</label>
+                    <input type="text" id="zillow-url" placeholder="Paste Zillow search URL...">
+                </div>
+
+                <!-- Detected Info Badge -->
+                <div class="detected-info" id="detected-info">
+                    <span class="badge" id="search-type-badge">Paste a URL to start</span>
+                </div>
+
+                <hr class="divider">
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <h3 class="section-title">Filters</h3>
+
+                    <!-- Property Types -->
+                    <div class="form-group">
+                        <label>Property Types</label>
+                        <div class="property-type-grid">
+                            <label class="chip-checkbox">
+                                <input type="checkbox" name="property_type" value="sf" checked>
+                                <span>House</span>
+                            </label>
+                            <label class="chip-checkbox">
+                                <input type="checkbox" name="property_type" value="tow" checked>
+                                <span>Townhouse</span>
+                            </label>
+                            <label class="chip-checkbox">
+                                <input type="checkbox" name="property_type" value="con">
+                                <span>Condo</span>
+                            </label>
+                            <label class="chip-checkbox">
+                                <input type="checkbox" name="property_type" value="apa">
+                                <span>Apartment</span>
+                            </label>
+                            <label class="chip-checkbox">
+                                <input type="checkbox" name="property_type" value="mf">
+                                <span>Multi-family</span>
+                            </label>
+                            <label class="chip-checkbox">
+                                <input type="checkbox" name="property_type" value="manu">
+                                <span>Manufactured</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Beds & Baths -->
+                    <div class="form-group">
+                        <label>Beds</label>
+                        <div class="input-row">
+                            <select id="min-beds">
+                                <option value="">No Min</option>
+                                <option value="1">1+</option>
+                                <option value="2">2+</option>
+                                <option value="3">3+</option>
+                                <option value="4">4+</option>
+                                <option value="5">5+</option>
+                            </select>
+                            <select id="max-beds">
+                                <option value="">No Max</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5+</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Baths</label>
+                        <div class="input-row">
+                            <select id="min-baths">
+                                <option value="">No Min</option>
+                                <option value="1">1+</option>
+                                <option value="2">2+</option>
+                                <option value="3">3+</option>
+                                <option value="4">4+</option>
+                            </select>
+                            <select id="max-baths">
+                                <option value="">No Max</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4+</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label id="price-label">Price</label>
+                        <div class="input-row">
+                            <div class="input-with-prefix">
+                                <span class="prefix">$</span>
+                                <input type="number" id="min-price" placeholder="Min">
+                            </div>
+                            <div class="input-with-prefix">
+                                <span class="prefix">$</span>
+                                <input type="number" id="max-price" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Year Built -->
+                    <div class="form-group">
+                        <label>Year Built</label>
+                        <div class="input-row">
+                            <input type="number" id="min-year" placeholder="From">
+                            <input type="number" id="max-year" placeholder="To">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <!-- Mortgage Calculator (For Sale only) -->
+                <div class="mortgage-section" id="mortgage-section">
+                    <h3 class="section-title">Mortgage Calculator</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Down Payment</label>
+                            <div class="input-with-suffix">
+                                <input type="number" id="down-payment" value="20" min="0" max="100">
+                                <span class="suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Interest Rate</label>
+                            <div class="input-with-suffix">
+                                <input type="number" id="apr" value="6.5" min="0" max="20" step="0.1">
+                                <span class="suffix">%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Loan Term</label>
+                        <select id="loan-term">
+                            <option value="30">30 years</option>
+                            <option value="20">20 years</option>
+                            <option value="15">15 years</option>
+                            <option value="10">10 years</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Property Tax/yr</label>
+                            <div class="input-with-prefix">
+                                <span class="prefix">$</span>
+                                <input type="number" id="property-tax" value="3000" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Insurance/yr</label>
+                            <div class="input-with-prefix">
+                                <span class="prefix">$</span>
+                                <input type="number" id="insurance" value="1500" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="search-btn" id="search-btn" disabled>
+                    Search Properties
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="results-header">
+                <div class="results-title">
+                    <h2>Properties</h2>
+                    <span class="results-count" id="results-count"></span>
+                </div>
+                <div class="results-actions">
+                    <button type="button" class="icon-btn" id="columns-btn" title="Manage columns">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Columns
+                    </button>
+                    <button type="button" class="icon-btn" id="export-json-btn" title="Export JSON">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        JSON
+                    </button>
+                    <button type="button" class="icon-btn" id="export-csv-btn" title="Export CSV">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="results-table">
+                    <thead>
+                        <tr id="table-header"></tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                    </svg>
+                </div>
+                <h3>Ready to Search</h3>
+                <p>Paste a Zillow search URL in the sidebar to get started</p>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state hidden" id="loading-state">
+                <div class="spinner"></div>
+                <p>Searching properties...</p>
+            </div>
+        </main>
+
+        <!-- Column Selector Modal -->
+        <div class="modal" id="columns-modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Manage Columns</h3>
+                    <button type="button" class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="columns-list" id="columns-list"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="reset-columns">Reset</button>
+                    <button type="button" class="btn-primary" id="apply-columns">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

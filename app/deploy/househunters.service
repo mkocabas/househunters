@@ -1,0 +1,15 @@
+[Unit]
+Description=HouseHunters FastAPI Application
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/opt/househunters/app
+Environment="PATH=/opt/househunters/app/venv/bin"
+ExecStart=/opt/househunters/app/venv/bin/uvicorn main:app --host 127.0.0.1 --port 5122 --workers 2
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

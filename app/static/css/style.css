@@ -410,7 +410,8 @@ body {
     background: var(--bg-primary);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     flex: 1;
     display: none;
 }
@@ -421,6 +422,7 @@ body {
 
 #results-table {
     width: 100%;
+    min-width: 800px;
     border-collapse: collapse;
 }
 
@@ -721,6 +723,22 @@ body {
 
     .main-content {
         margin-left: 0;
+        padding: 16px;
+    }
+
+    .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .results-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .table-container {
+        margin: 0 -16px;
+        border-radius: 0;
     }
 
     .columns-list {

@@ -96,6 +96,10 @@ const elements = {
 function init() {
     loadPreferences();
     setupEventListeners();
+    // Trigger URL detection if there's a default value
+    if (elements.zillowUrl.value) {
+        handleUrlChange();
+    }
 }
 
 function loadPreferences() {

@@ -58,6 +58,9 @@ const ALL_COLUMNS = {
 const elements = {
     zillowUrl: document.getElementById('zillow-url'),
     searchTypeBadge: document.getElementById('search-type-badge'),
+    searchTypeToggle: document.getElementById('search-type-toggle'),
+    btnSale: document.getElementById('btn-sale'),
+    btnRent: document.getElementById('btn-rent'),
     searchBtn: document.getElementById('search-btn'),
     mortgageSection: document.getElementById('mortgage-section'),
     priceLabel: document.getElementById('price-label'),
@@ -163,6 +166,10 @@ function setupEventListeners() {
             performSearch();
         }
     });
+
+    // Search type toggle buttons
+    elements.btnSale.addEventListener('click', () => setSearchType('sale'));
+    elements.btnRent.addEventListener('click', () => setSearchType('rent'));
 }
 
 function handleUrlChange() {
@@ -174,46 +181,64 @@ function handleUrlChange() {
         elements.searchTypeBadge.className = 'badge';
         elements.searchBtn.disabled = true;
         elements.mortgageSection.classList.add('hidden');
+        elements.searchTypeToggle.style.display = 'none';
         return;
     }
 
-    // Detect search type from URL
-    const searchType = detectSearchType(url);
+    // Check if URL contains valid Zillow search data
+    if (url.includes('zillow.com')) {
+        // Detect initial search type from URL
+        const detectedType = detectSearchType(url);
 
-    if (searchType) {
-        state.searchType = searchType;
+        // Show toggle and set initial type
+        elements.searchTypeToggle.style.display = 'block';
+        elements.searchTypeBadge.textContent = 'Map bounds loaded from URL';
+        elements.searchTypeBadge.className = 'badge';
         elements.searchBtn.disabled = false;
 
-        if (searchType === 'rent') {
-            elements.searchTypeBadge.textContent = 'For Rent';
-            elements.searchTypeBadge.className = 'badge rent';
-            elements.mortgageSection.classList.add('hidden');
-            elements.priceLabel.textContent = 'Monthly Rent';
-            // Remove mortgage column for rent
-            const mortgageIdx = state.visibleColumns.indexOf('mortgageEstimate');
-            if (mortgageIdx > -1) state.visibleColumns.splice(mortgageIdx, 1);
-            // Add rentDiff column for rent
-            if (!state.visibleColumns.includes('rentDiff')) {
-                state.visibleColumns.push('rentDiff');
-            }
-        } else {
-            elements.searchTypeBadge.textContent = 'For Sale';
-            elements.searchTypeBadge.className = 'badge sale';
-            elements.mortgageSection.classList.remove('hidden');
-            elements.priceLabel.textContent = 'Price';
-            // Add mortgage column for sale
-            if (!state.visibleColumns.includes('mortgageEstimate')) {
-                state.visibleColumns.push('mortgageEstimate');
-            }
-            // Remove rentDiff column for sale
-            const rentDiffIdx = state.visibleColumns.indexOf('rentDiff');
-            if (rentDiffIdx > -1) state.visibleColumns.splice(rentDiffIdx, 1);
-        }
+        // Set search type (detected or default to sale)
+        setSearchType(detectedType || 'sale');
     } else {
         state.searchType = null;
         elements.searchTypeBadge.textContent = 'Invalid URL';
         elements.searchTypeBadge.className = 'badge';
         elements.searchBtn.disabled = true;
+        elements.searchTypeToggle.style.display = 'none';
+    }
+}
+
+function setSearchType(searchType) {
+    state.searchType = searchType;
+
+    // Update toggle buttons
+    elements.btnSale.classList.toggle('active', searchType === 'sale');
+    elements.btnRent.classList.toggle('active', searchType === 'rent');
+
+    if (searchType === 'rent') {
+        elements.mortgageSection.classList.add('hidden');
+        elements.priceLabel.textContent = 'Monthly Rent';
+        // Remove mortgage column for rent
+        const mortgageIdx = state.visibleColumns.indexOf('mortgageEstimate');
+        if (mortgageIdx > -1) state.visibleColumns.splice(mortgageIdx, 1);
+        // Add rentDiff column for rent
+        if (!state.visibleColumns.includes('rentDiff')) {
+            state.visibleColumns.push('rentDiff');
+        }
+    } else {
+        elements.mortgageSection.classList.remove('hidden');
+        elements.priceLabel.textContent = 'Price';
+        // Add mortgage column for sale
+        if (!state.visibleColumns.includes('mortgageEstimate')) {
+            state.visibleColumns.push('mortgageEstimate');
+        }
+        // Remove rentDiff column for sale
+        const rentDiffIdx = state.visibleColumns.indexOf('rentDiff');
+        if (rentDiffIdx > -1) state.visibleColumns.splice(rentDiffIdx, 1);
+    }
+
+    // Re-render table if we have results
+    if (state.results.length > 0) {
+        renderTable();
     }
 }
 

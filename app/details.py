@@ -2,11 +2,13 @@
 Property details fetcher using Scraper API.
 Fetches detailed property information from Zillow using property ID or URL.
 """
+import json
 import logging
 import os
 import re
 from html import unescape
 from json import loads
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -18,6 +20,9 @@ SCRAPER_API_KEY = os.environ.get("SCRAPER_API_KEY", "REDACTED_API_KEY")
 SCRAPER_API_URL = "https://api.scraperapi.com/"
 REQUEST_TIMEOUT = 60
 
+# Cache configuration
+CACHE_FILE = Path(__file__).parent / "data" / "school_cache.json"
+
 # Regex for cleaning whitespace
 REGEX_SPACE = re.compile(r"[\s ]+")
 
@@ -25,6 +30,27 @@ REGEX_SPACE = re.compile(r"[\s ]+")
 def _remove_space(value: str) -> str:
     """Remove unwanted spaces in given string."""
     return REGEX_SPACE.sub(" ", value.strip())
+
+
+def _load_cache() -> dict:
+    """Load the school ratings cache from disk."""
+    if CACHE_FILE.exists():
+        try:
+            with open(CACHE_FILE) as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError) as e:
+            logger.warning(f"Failed to load cache: {e}")
+    return {}
+
+
+def _save_cache(cache: dict) -> None:
+    """Save the school ratings cache to disk."""
+    try:
+        CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(CACHE_FILE, "w") as f:
+            json.dump(cache, f, indent=2)
+    except IOError as e:
+        logger.error(f"Failed to save cache: {e}")
 
 
 def _get_nested_value(dic: dict, key_path: str, default=None) -> Any:
@@ -114,6 +140,7 @@ def _parse_property_data(body: bytes) -> dict[str, Any]:
 def get_property_details_by_zpid(zpid: int | str) -> dict[str, Any]:
     """
     Fetch detailed property information by Zillow Property ID (zpid).
+    Results are cached to avoid expensive API calls.
 
     Args:
         zpid: Zillow property ID (can be int or string)
@@ -125,9 +152,25 @@ def get_property_details_by_zpid(zpid: int | str) -> dict[str, Any]:
         - Media: images, 3D tours, videos
         - Market data: zestimate, rent estimate, days on Zillow
     """
-    zpid = str(zpid)
-    home_url = f"https://www.zillow.com/homedetails/property/{zpid}_zpid/"
-    return get_property_details_by_url(home_url)
+    zpid_str = str(zpid)
+
+    # Check cache first
+    cache = _load_cache()
+    if zpid_str in cache:
+        logger.info(f"Cache hit for zpid: {zpid_str}")
+        return cache[zpid_str]
+
+    # Fetch from API
+    logger.info(f"Cache miss for zpid: {zpid_str}, fetching from API")
+    home_url = f"https://www.zillow.com/homedetails/property/{zpid_str}_zpid/"
+    details = get_property_details_by_url(home_url)
+
+    # Save to cache
+    if details:
+        cache[zpid_str] = details
+        _save_cache(cache)
+
+    return details
 
 
 def get_property_details_by_url(home_url: str) -> dict[str, Any]:

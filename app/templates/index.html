@@ -130,12 +130,61 @@
                         </div>
                     </div>
 
+                    <!-- Sqft -->
+                    <div class="form-group">
+                        <label>Sqft</label>
+                        <div class="input-row">
+                            <input type="number" id="min-sqft" placeholder="Min">
+                            <input type="number" id="max-sqft" placeholder="Max">
+                        </div>
+                    </div>
+
                     <!-- Year Built -->
                     <div class="form-group">
                         <label>Year Built</label>
                         <div class="input-row">
                             <input type="number" id="min-year" placeholder="From">
                             <input type="number" id="max-year" placeholder="To">
+                        </div>
+                    </div>
+
+                    <!-- School Ratings Filter -->
+                    <div class="form-group">
+                        <label>Min School Ratings</label>
+                        <div class="school-rating-filters">
+                            <div class="rating-filter">
+                                <span class="rating-label">E</span>
+                                <select id="min-elementary">
+                                    <option value="">-</option>
+                                    <option value="5">5+</option>
+                                    <option value="6">6+</option>
+                                    <option value="7">7+</option>
+                                    <option value="8">8+</option>
+                                    <option value="9">9+</option>
+                                </select>
+                            </div>
+                            <div class="rating-filter">
+                                <span class="rating-label">M</span>
+                                <select id="min-middle">
+                                    <option value="">-</option>
+                                    <option value="5">5+</option>
+                                    <option value="6">6+</option>
+                                    <option value="7">7+</option>
+                                    <option value="8">8+</option>
+                                    <option value="9">9+</option>
+                                </select>
+                            </div>
+                            <div class="rating-filter">
+                                <span class="rating-label">H</span>
+                                <select id="min-high">
+                                    <option value="">-</option>
+                                    <option value="5">5+</option>
+                                    <option value="6">6+</option>
+                                    <option value="7">7+</option>
+                                    <option value="8">8+</option>
+                                    <option value="9">9+</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

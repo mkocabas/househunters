@@ -16,6 +16,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 from zillow import parse_bounds_from_url, search_properties_async
+from details import get_property_details_by_zpid_async
 
 app = FastAPI(title="HouseHunters", version="2.0.0")
 
@@ -38,6 +39,8 @@ class SearchRequest(BaseModel):
     max_baths: int | None = None
     min_price: int | None = None
     max_price: int | None = None
+    min_sqft: int | None = None
+    max_sqft: int | None = None
     min_year: int | None = None
     max_year: int | None = None
     property_types: dict[str, bool] = {}
@@ -74,6 +77,8 @@ async def search(request: SearchRequest):
         "max_baths": request.max_baths,
         "min_price": request.min_price,
         "max_price": request.max_price,
+        "min_sqft": request.min_sqft,
+        "max_sqft": request.max_sqft,
         "min_year": request.min_year,
         "max_year": request.max_year,
         "property_types": request.property_types,
@@ -154,6 +159,51 @@ def flatten_dict(d: dict, parent_key: str = "", sep: str = ".") -> dict:
         else:
             items.append((new_key, v))
     return dict(items)
+
+
+@app.get("/api/details/{zpid}")
+async def get_property_details(zpid: str):
+    """Get detailed property information including school ratings."""
+    try:
+        details = await get_property_details_by_zpid_async(zpid)
+
+        if not details:
+            raise HTTPException(status_code=404, detail="Property not found")
+
+        # Extract school ratings by level
+        schools = details.get("schools", [])
+        school_ratings = {
+            "elementary": None,
+            "middle": None,
+            "high": None,
+        }
+
+        for school in schools:
+            level = school.get("level", "").lower()
+            rating = school.get("rating")
+
+            if rating is not None:
+                if "elementary" in level:
+                    school_ratings["elementary"] = rating
+                elif "middle" in level:
+                    school_ratings["middle"] = rating
+                elif "high" in level:
+                    school_ratings["high"] = rating
+
+        # Calculate total score (sum of available ratings)
+        total = sum(r for r in school_ratings.values() if r is not None)
+
+        return {
+            "zpid": zpid,
+            "schools": school_ratings,
+            "schoolRatingsTotal": total,
+            "schoolRatingsDisplay": f"{school_ratings['elementary'] or '-'}/{school_ratings['middle'] or '-'}/{school_ratings['high'] or '-'}",
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/saved-searches")

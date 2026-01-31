@@ -738,6 +738,49 @@ body {
     background: var(--bg-secondary);
 }
 
+/* School Rating Filters */
+.school-rating-filters {
+    display: flex;
+    gap: 8px;
+}
+
+.rating-filter {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rating-filter .rating-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    min-width: 14px;
+}
+
+.rating-filter select {
+    flex: 1;
+    min-width: 0;
+}
+
+/* School Ratings Column */
+td.schoolRatings {
+    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+/* Cell Loading Spinner */
+.cell-loading {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .sidebar {

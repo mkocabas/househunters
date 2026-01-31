@@ -6,6 +6,7 @@
 const state = {
     searchType: null, // Will be detected from URL
     results: [],
+    filteredResults: [], // Results after school filter applied
     sortColumn: null,
     sortDirection: 'asc',
     visibleColumns: [],
@@ -16,6 +17,7 @@ const state = {
         propertyTax: 3000,
         insurance: 1500,
     },
+    schoolRatingsLoading: false,
 };
 
 // Default columns to show
@@ -27,7 +29,7 @@ const DEFAULT_COLUMNS = [
     'baths',
     'area',
     'homeType',
-    'statusText',
+    'schoolRatings',
 ];
 
 // All available columns with display names
@@ -42,6 +44,7 @@ const ALL_COLUMNS = {
     area: 'Sqft',
     homeType: 'Type',
     statusText: 'Status',
+    schoolRatings: 'Schools',
     zestimate: 'Zestimate',
     rentZestimate: 'Rent Estimate',
     rentDiff: 'Rent vs Estimate',
@@ -85,6 +88,8 @@ const elements = {
     maxBaths: document.getElementById('max-baths'),
     minPrice: document.getElementById('min-price'),
     maxPrice: document.getElementById('max-price'),
+    minSqft: document.getElementById('min-sqft'),
+    maxSqft: document.getElementById('max-sqft'),
     minYear: document.getElementById('min-year'),
     maxYear: document.getElementById('max-year'),
     // Mortgage inputs
@@ -93,6 +98,10 @@ const elements = {
     loanTerm: document.getElementById('loan-term'),
     propertyTax: document.getElementById('property-tax'),
     insurance: document.getElementById('insurance'),
+    // School rating filters
+    minElementary: document.getElementById('min-elementary'),
+    minMiddle: document.getElementById('min-middle'),
+    minHigh: document.getElementById('min-high'),
 };
 
 // Initialize
@@ -170,6 +179,11 @@ function setupEventListeners() {
     // Search type toggle buttons
     elements.btnSale.addEventListener('click', () => setSearchType('sale'));
     elements.btnRent.addEventListener('click', () => setSearchType('rent'));
+
+    // School rating filter changes
+    [elements.minElementary, elements.minMiddle, elements.minHigh].forEach(select => {
+        select.addEventListener('change', applySchoolFilters);
+    });
 }
 
 function handleUrlChange() {
@@ -332,6 +346,8 @@ async function performSearch() {
         max_baths: elements.maxBaths.value ? parseInt(elements.maxBaths.value) : null,
         min_price: elements.minPrice.value ? parseInt(elements.minPrice.value) : null,
         max_price: elements.maxPrice.value ? parseInt(elements.maxPrice.value) : null,
+        min_sqft: elements.minSqft.value ? parseInt(elements.minSqft.value) : null,
+        max_sqft: elements.maxSqft.value ? parseInt(elements.maxSqft.value) : null,
         min_year: elements.minYear.value ? parseInt(elements.minYear.value) : null,
         max_year: elements.maxYear.value ? parseInt(elements.maxYear.value) : null,
         property_types: propertyTypes,
@@ -353,12 +369,15 @@ async function performSearch() {
         }
 
         state.results = data.results || [];
+        state.filteredResults = [...state.results];
         elements.resultsCount.textContent = `${state.results.length} properties`;
 
         if (state.results.length > 0) {
             renderTable();
             elements.tableContainer.classList.add('visible');
             elements.emptyState.classList.add('hidden');
+            // Fetch school ratings progressively
+            fetchSchoolRatings();
         } else {
             elements.tableContainer.classList.remove('visible');
             elements.emptyState.classList.remove('hidden');
@@ -405,8 +424,8 @@ function renderTable() {
         elements.tableHeader.appendChild(th);
     });
 
-    // Sort results
-    let sortedResults = [...state.results];
+    // Sort results (use filteredResults)
+    let sortedResults = [...state.filteredResults];
     if (state.sortColumn) {
         sortedResults.sort((a, b) => {
             let aVal = getNestedValue(a, state.sortColumn);
@@ -429,6 +448,11 @@ function renderTable() {
                 const bEstimate = getNestedValue(b, 'rentZestimate');
                 aVal = (aRent && aEstimate) ? aRent - aEstimate : 0;
                 bVal = (bRent && bEstimate) ? bRent - bEstimate : 0;
+            }
+
+            if (state.sortColumn === 'schoolRatings') {
+                aVal = a.schoolRatingsTotal ?? -1;
+                bVal = b.schoolRatingsTotal ?? -1;
             }
 
             if (state.sortColumn === 'daysOnZillow') {
@@ -456,6 +480,7 @@ function renderTable() {
     elements.tableBody.innerHTML = '';
     sortedResults.forEach(property => {
         const tr = document.createElement('tr');
+        tr.dataset.zpid = getZpid(property);
         tr.addEventListener('click', () => {
             const url = property.detailUrl;
             if (url) {
@@ -476,6 +501,17 @@ function renderTable() {
                 const mortgage = calculateMortgage(getPrice(property));
                 value = formatPrice(mortgage) + '/mo';
                 td.classList.add('mortgage');
+            } else if (col === 'schoolRatings') {
+                // Show loading spinner or rating
+                if (property.schoolRatingsDisplay) {
+                    td.textContent = property.schoolRatingsDisplay;
+                } else {
+                    const spinner = document.createElement('span');
+                    spinner.className = 'cell-loading';
+                    td.appendChild(spinner);
+                }
+                tr.appendChild(td);
+                return; // Skip the default textContent assignment
             } else if (col === 'rentDiff') {
                 const rentPrice = getPrice(property);
                 const rentEstimate = getNestedValue(property, 'rentZestimate');
@@ -505,6 +541,15 @@ function renderTable() {
 
         elements.tableBody.appendChild(tr);
     });
+
+    // Update count to show filtered
+    const total = state.results.length;
+    const filtered = state.filteredResults.length;
+    if (filtered < total) {
+        elements.resultsCount.textContent = `${filtered} of ${total} properties`;
+    } else {
+        elements.resultsCount.textContent = `${total} properties`;
+    }
 }
 
 function sortBy(column) {
@@ -585,6 +630,88 @@ function formatHomeType(type) {
         APARTMENT: 'Apartment',
     };
     return types[type] || type || '-';
+}
+
+function getZpid(property) {
+    return property.zpid ||
+        property.hdpData?.homeInfo?.zpid ||
+        property.detailUrl?.match(/(\d+)_zpid/)?.[1] ||
+        null;
+}
+
+async function fetchSchoolRatings() {
+    if (state.schoolRatingsLoading) return;
+    state.schoolRatingsLoading = true;
+
+    for (const property of state.results) {
+        const zpid = getZpid(property);
+        if (!zpid || property.schoolRatingsDisplay) continue;
+
+        try {
+            const response = await fetch(`/api/details/${zpid}`);
+            if (response.ok) {
+                const data = await response.json();
+
+                // Store school data on the property
+                property.schoolRatings = data.schools;
+                property.schoolRatingsTotal = data.schoolRatingsTotal;
+                property.schoolRatingsDisplay = data.schoolRatingsDisplay;
+
+                // Update the cell directly without full re-render
+                const row = document.querySelector(`tr[data-zpid="${zpid}"]`);
+                if (row) {
+                    const cell = row.querySelector('td.schoolRatings');
+                    if (cell) {
+                        cell.innerHTML = '';
+                        cell.textContent = data.schoolRatingsDisplay;
+                    }
+                }
+
+                // Apply filters after each fetch
+                applySchoolFilters();
+            }
+        } catch (error) {
+            console.error(`Failed to fetch details for zpid ${zpid}:`, error);
+            property.schoolRatingsDisplay = '-/-/-';
+        }
+    }
+
+    state.schoolRatingsLoading = false;
+}
+
+function applySchoolFilters() {
+    const minE = elements.minElementary.value ? parseInt(elements.minElementary.value) : null;
+    const minM = elements.minMiddle.value ? parseInt(elements.minMiddle.value) : null;
+    const minH = elements.minHigh.value ? parseInt(elements.minHigh.value) : null;
+
+    // If no filters set, show all
+    if (!minE && !minM && !minH) {
+        state.filteredResults = [...state.results];
+        renderTable();
+        return;
+    }
+
+    state.filteredResults = state.results.filter(property => {
+        const ratings = property.schoolRatings;
+
+        // If school data not loaded yet, keep it (will be filtered when data arrives)
+        if (!ratings) return true;
+
+        // Check each filter
+        if (minE && (ratings.elementary === null || ratings.elementary < minE)) {
+            return false;
+        }
+        if (minM && (ratings.middle === null || ratings.middle < minM)) {
+            return false;
+        }
+        if (minH && (ratings.high === null || ratings.high < minH)) {
+            return false;
+        }
+
+        return true;
+    });
+
+    renderTable();
 }
 
 // Column Modal

@@ -129,6 +129,15 @@ def search_properties(
             year_built["max"] = filters["max_year"]
         filter_state["built"] = year_built
 
+    # Add sqft filter
+    if filters.get("min_sqft") is not None or filters.get("max_sqft") is not None:
+        sqft = {}
+        if filters.get("min_sqft") is not None:
+            sqft["min"] = filters["min_sqft"]
+        if filters.get("max_sqft") is not None:
+            sqft["max"] = filters["max_sqft"]
+        filter_state["sqft"] = sqft
+
     # Add property type filters
     property_types = filters.get("property_types", {})
     for prop_type, include in property_types.items():

@@ -16,7 +16,9 @@ import requests
 logger = logging.getLogger(__name__)
 
 # Configuration
-SCRAPER_API_KEY = os.environ.get("SCRAPER_API_KEY", "REDACTED_API_KEY")
+SCRAPER_API_KEY = os.environ.get("SCRAPER_API_KEY")
+if not SCRAPER_API_KEY:
+    logger.warning("SCRAPER_API_KEY environment variable not set - school ratings will fail")
 SCRAPER_API_URL = "https://api.scraperapi.com/"
 REQUEST_TIMEOUT = 60
 

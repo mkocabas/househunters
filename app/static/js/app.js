@@ -18,6 +18,7 @@ const state = {
         insurance: 1500,
     },
     schoolRatingsLoading: false,
+    selectedProperties: new Set(), // Store zpids of selected properties
 };
 
 // Default columns to show
@@ -99,6 +100,8 @@ const elements = {
     propertyTax: document.getElementById('property-tax'),
     insurance: document.getElementById('insurance'),
     // School rating filters
+    fetchSchoolsToggle: document.getElementById('fetch-schools-toggle'),
+    schoolFiltersGroup: document.getElementById('school-filters-group'),
     minElementary: document.getElementById('min-elementary'),
     minMiddle: document.getElementById('min-middle'),
     minHigh: document.getElementById('min-high'),
@@ -131,11 +134,70 @@ function loadPreferences() {
         elements.propertyTax.value = state.mortgageSettings.propertyTax;
         elements.insurance.value = state.mortgageSettings.insurance;
     }
+
+    // Load saved filters
+    const savedFilters = localStorage.getItem('househunters_filters');
+    if (savedFilters) {
+        const filters = JSON.parse(savedFilters);
+        if (filters.minBeds) elements.minBeds.value = filters.minBeds;
+        if (filters.maxBeds) elements.maxBeds.value = filters.maxBeds;
+        if (filters.minBaths) elements.minBaths.value = filters.minBaths;
+        if (filters.maxBaths) elements.maxBaths.value = filters.maxBaths;
+        if (filters.minPrice) elements.minPrice.value = filters.minPrice;
+        if (filters.maxPrice) elements.maxPrice.value = filters.maxPrice;
+        if (filters.minSqft) elements.minSqft.value = filters.minSqft;
+        if (filters.maxSqft) elements.maxSqft.value = filters.maxSqft;
+        if (filters.minYear) elements.minYear.value = filters.minYear;
+        if (filters.maxYear) elements.maxYear.value = filters.maxYear;
+        if (filters.minElementary) elements.minElementary.value = filters.minElementary;
+        if (filters.minMiddle) elements.minMiddle.value = filters.minMiddle;
+        if (filters.minHigh) elements.minHigh.value = filters.minHigh;
+        // Restore fetch schools toggle (default off)
+        elements.fetchSchoolsToggle.checked = filters.fetchSchools === true;
+        elements.schoolFiltersGroup.style.display = filters.fetchSchools ? 'block' : 'none';
+        // Restore property types
+        if (filters.propertyTypes) {
+            document.querySelectorAll('input[name="property_type"]').forEach(cb => {
+                if (filters.propertyTypes[cb.value] !== undefined) {
+                    cb.checked = filters.propertyTypes[cb.value];
+                }
+            });
+        }
+    } else {
+        // Default: hide school filters
+        elements.schoolFiltersGroup.style.display = 'none';
+    }
 }
 
 function savePreferences() {
     localStorage.setItem('househunters_columns', JSON.stringify(state.visibleColumns));
     localStorage.setItem('househunters_mortgage', JSON.stringify(state.mortgageSettings));
+}
+
+function saveFilters() {
+    const propertyTypes = {};
+    document.querySelectorAll('input[name="property_type"]').forEach(cb => {
+        propertyTypes[cb.value] = cb.checked;
+    });
+
+    const filters = {
+        minBeds: elements.minBeds.value,
+        maxBeds: elements.maxBeds.value,
+        minBaths: elements.minBaths.value,
+        maxBaths: elements.maxBaths.value,
+        minPrice: elements.minPrice.value,
+        maxPrice: elements.maxPrice.value,
+        minSqft: elements.minSqft.value,
+        maxSqft: elements.maxSqft.value,
+        minYear: elements.minYear.value,
+        maxYear: elements.maxYear.value,
+        minElementary: elements.minElementary.value,
+        minMiddle: elements.minMiddle.value,
+        minHigh: elements.minHigh.value,
+        fetchSchools: elements.fetchSchoolsToggle.checked,
+        propertyTypes: propertyTypes,
+    };
+    localStorage.setItem('househunters_filters', JSON.stringify(filters));
 }
 
 function setupEventListeners() {
@@ -180,9 +242,32 @@ function setupEventListeners() {
     elements.btnSale.addEventListener('click', () => setSearchType('sale'));
     elements.btnRent.addEventListener('click', () => setSearchType('rent'));
 
+    // Fetch schools toggle
+    elements.fetchSchoolsToggle.addEventListener('change', () => {
+        const enabled = elements.fetchSchoolsToggle.checked;
+        elements.schoolFiltersGroup.style.display = enabled ? 'block' : 'none';
+        saveFilters();
+    });
+
     // School rating filter changes
     [elements.minElementary, elements.minMiddle, elements.minHigh].forEach(select => {
         select.addEventListener('change', applySchoolFilters);
+    });
+
+    // Save filters to localStorage on change
+    const filterInputs = [
+        elements.minBeds, elements.maxBeds,
+        elements.minBaths, elements.maxBaths,
+        elements.minPrice, elements.maxPrice,
+        elements.minSqft, elements.maxSqft,
+        elements.minYear, elements.maxYear,
+        elements.minElementary, elements.minMiddle, elements.minHigh,
+    ];
+    filterInputs.forEach(input => {
+        input.addEventListener('change', saveFilters);
+    });
+    document.querySelectorAll('input[name="property_type"]').forEach(cb => {
+        cb.addEventListener('change', saveFilters);
     });
 }
 
@@ -376,8 +461,10 @@ async function performSearch() {
             renderTable();
             elements.tableContainer.classList.add('visible');
             elements.emptyState.classList.add('hidden');
-            // Fetch school ratings progressively
-            fetchSchoolRatings();
+            // Fetch school ratings progressively (if enabled)
+            if (elements.fetchSchoolsToggle.checked) {
+                fetchSchoolRatings();
+            }
         } else {
             elements.tableContainer.classList.remove('visible');
             elements.emptyState.classList.remove('hidden');
@@ -407,6 +494,18 @@ function showLoading(show) {
 function renderTable() {
     // Render header
     elements.tableHeader.innerHTML = '';
+
+    // Add select-all checkbox header
+    const selectAllTh = document.createElement('th');
+    selectAllTh.className = 'select-col';
+    const selectAllCb = document.createElement('input');
+    selectAllCb.type = 'checkbox';
+    selectAllCb.id = 'select-all-checkbox';
+    selectAllCb.addEventListener('click', (e) => e.stopPropagation());
+    selectAllCb.addEventListener('change', toggleSelectAll);
+    selectAllTh.appendChild(selectAllCb);
+    elements.tableHeader.appendChild(selectAllTh);
+
     state.visibleColumns.forEach(col => {
         const th = document.createElement('th');
         th.textContent = ALL_COLUMNS[col] || col;
@@ -480,13 +579,25 @@ function renderTable() {
     elements.tableBody.innerHTML = '';
     sortedResults.forEach(property => {
         const tr = document.createElement('tr');
-        tr.dataset.zpid = getZpid(property);
+        const zpid = getZpid(property);
+        tr.dataset.zpid = zpid;
         tr.addEventListener('click', () => {
             const url = property.detailUrl;
             if (url) {
                 window.open(url.startsWith('http') ? url : 'https://www.zillow.com' + url, '_blank');
             }
         });
+
+        // Add selection checkbox cell
+        const selectTd = document.createElement('td');
+        selectTd.className = 'select-col';
+        const selectCb = document.createElement('input');
+        selectCb.type = 'checkbox';
+        selectCb.checked = state.selectedProperties.has(zpid);
+        selectCb.addEventListener('click', (e) => e.stopPropagation());
+        selectCb.addEventListener('change', () => togglePropertySelection(zpid));
+        selectTd.appendChild(selectCb);
+        tr.appendChild(selectTd);
 
         state.visibleColumns.forEach(col => {
             const td = document.createElement('td');
@@ -542,14 +653,9 @@ function renderTable() {
         elements.tableBody.appendChild(tr);
     });
 
-    // Update count to show filtered
-    const total = state.results.length;
-    const filtered = state.filteredResults.length;
-    if (filtered < total) {
-        elements.resultsCount.textContent = `${filtered} of ${total} properties`;
-    } else {
-        elements.resultsCount.textContent = `${total} properties`;
-    }
+    // Update count and select-all checkbox state
+    updateResultsCount();
+    updateSelectAllCheckbox();
 }
 
 function sortBy(column) {
@@ -574,6 +680,7 @@ function getNestedValue(obj, path) {
         taxAssessedValue: 'hdpData.homeInfo.taxAssessedValue',
         latitude: 'latLong.latitude',
         longitude: 'latLong.longitude',
+        area: 'hdpData.homeInfo.livingArea',
     };
 
     // For fields with mappings, try the nested path first
@@ -637,6 +744,57 @@ function getZpid(property) {
         property.hdpData?.homeInfo?.zpid ||
         property.detailUrl?.match(/(\d+)_zpid/)?.[1] ||
         null;
+}
+
+function togglePropertySelection(zpid) {
+    if (state.selectedProperties.has(zpid)) {
+        state.selectedProperties.delete(zpid);
+    } else {
+        state.selectedProperties.add(zpid);
+    }
+    updateSelectAllCheckbox();
+    updateResultsCount();
+}
+
+function toggleSelectAll(e) {
+    const checked = e.target.checked;
+    state.filteredResults.forEach(property => {
+        const zpid = getZpid(property);
+        if (zpid) {
+            if (checked) {
+                state.selectedProperties.add(zpid);
+            } else {
+                state.selectedProperties.delete(zpid);
+            }
+        }
+    });
+    renderTable();
+}
+
+function updateSelectAllCheckbox() {
+    const selectAll = document.getElementById('select-all-checkbox');
+    if (selectAll) {
+        const visibleCount = state.filteredResults.length;
+        const selectedVisible = state.filteredResults.filter(p =>
+            state.selectedProperties.has(getZpid(p))
+        ).length;
+        selectAll.checked = visibleCount > 0 && selectedVisible === visibleCount;
+        selectAll.indeterminate = selectedVisible > 0 && selectedVisible < visibleCount;
+    }
+}
+
+function updateResultsCount() {
+    const total = state.results.length;
+    const filtered = state.filteredResults.length;
+    const selected = state.selectedProperties.size;
+
+    if (selected > 0) {
+        elements.resultsCount.textContent = `${selected} selected of ${filtered} properties`;
+    } else if (filtered < total) {
+        elements.resultsCount.textContent = `${filtered} of ${total} properties`;
+    } else {
+        elements.resultsCount.textContent = `${total} properties`;
+    }
 }
 
 async function fetchSchoolRatings() {
@@ -763,16 +921,42 @@ function applyColumns() {
 
 // Export
 async function exportResults(format) {
-    if (state.results.length === 0) {
+    if (state.filteredResults.length === 0) {
         alert('No results to export');
         return;
     }
 
-    const exportData = state.results.map(property => {
-        const row = { ...property };
-        if (state.searchType === 'sale') {
-            row.mortgageEstimate = Math.round(calculateMortgage(getPrice(property)));
-        }
+    // Filter to selected properties, or use all if none selected
+    let toExport = state.filteredResults;
+    if (state.selectedProperties.size > 0) {
+        toExport = state.filteredResults.filter(p =>
+            state.selectedProperties.has(getZpid(p))
+        );
+    }
+
+    if (toExport.length === 0) {
+        alert('No properties selected for export');
+        return;
+    }
+
+    // Map visible columns to actual values (same as displayed in table)
+    const exportData = toExport.map(property => {
+        const row = {};
+        state.visibleColumns.forEach(col => {
+            if (col === 'price') {
+                row[col] = getPrice(property);
+            } else if (col === 'mortgageEstimate') {
+                row[col] = Math.round(calculateMortgage(getPrice(property)));
+            } else if (col === 'schoolRatings') {
+                row[col] = property.schoolRatingsDisplay || '';
+            } else if (col === 'rentDiff') {
+                const rent = getPrice(property);
+                const estimate = getNestedValue(property, 'rentZestimate');
+                row[col] = (rent && estimate) ? rent - estimate : '';
+            } else {
+                row[col] = getNestedValue(property, col) ?? '';
+            }
+        });
         return row;
     });
 

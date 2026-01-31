@@ -101,6 +101,24 @@ body {
     margin-bottom: 6px;
 }
 
+.form-group label.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-transform: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-sidebar);
+}
+
+.form-group label.toggle-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
 /* Unified Input Styling */
 .form-group input[type="text"],
 .form-group input[type="number"],
@@ -535,6 +553,28 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Select Column */
+#results-table th.select-col,
+#results-table td.select-col {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    text-align: center;
+    padding: 8px 12px;
+    cursor: default;
+}
+
+#results-table th.select-col:hover {
+    background: var(--bg-secondary);
+}
+
+.select-col input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
 }
 
 /* Empty State */

@@ -3,15 +3,35 @@ Zillow API wrapper using curl_cffi for browser impersonation.
 """
 import json
 import re
+import time
 import logging
+from pathlib import Path
 from typing import Any
 from urllib.parse import unquote
 
-from curl_cffi.requests import Session
+from curl_cffi import requests
 
 logger = logging.getLogger(__name__)
 
 ZILLOW_SEARCH_URL = "https://www.zillow.com/async-create-search-page-state"
+COOKIES_FILE = Path(__file__).parent / "zillow_cookies.json"
+
+
+def load_cookies() -> dict[str, str]:
+    """Load cookies from JSON file exported from browser."""
+    if not COOKIES_FILE.exists():
+        logger.warning(f"Cookies file not found: {COOKIES_FILE}")
+        return {}
+
+    with open(COOKIES_FILE) as f:
+        cookies_list = json.load(f)
+
+    # Handle both formats: list of cookie objects or simple dict
+    if isinstance(cookies_list, dict):
+        return cookies_list
+
+    # Convert list format (from extensions like "Cookie-Editor") to dict
+    return {c["name"]: c["value"] for c in cookies_list if c.get("name")}
 
 
 def parse_bounds_from_url(zillow_url: str) -> dict[str, Any] | None:
@@ -48,6 +68,8 @@ def parse_bounds_from_url(zillow_url: str) -> dict[str, Any] | None:
             "sw_long": map_bounds.get("west"),
             "zoom_value": query_state.get("mapZoom", 12),
             "custom_region_id": query_state.get("customRegionId"),
+            "region_selection": query_state.get("regionSelection"),
+            "users_search_term": query_state.get("usersSearchTerm"),
             "original_url": zillow_url,
         }
     except (json.JSONDecodeError, KeyError) as e:
@@ -59,6 +81,7 @@ def search_properties(
     bounds: dict[str, float],
     filters: dict[str, Any],
     search_type: str = "sale",
+    pagination: int = 1,
 ) -> dict[str, Any]:
     """
     Search Zillow properties using curl_cffi with browser impersonation.
@@ -157,7 +180,7 @@ def search_properties(
             },
             "filterState": filter_state,
             "mapZoom": bounds.get("zoom_value", 12),
-            "pagination": {"currentPage": 1},
+            "pagination": {"currentPage": pagination},
         },
         "wants": {
             "cat1": ["listResults", "mapResults"],
@@ -167,44 +190,79 @@ def search_properties(
         "isDebugRequest": False,
     }
 
+    # print(json.dumps(input_data, indent=2))
+
     # Add custom region ID if provided
     if bounds.get("custom_region_id"):
         input_data["searchQueryState"]["customRegionId"] = bounds["custom_region_id"]
 
-    # Use a session to maintain cookies
-    with Session(impersonate="chrome") as session:
-        # First, visit the original Zillow page to get cookies
-        original_url = bounds.get("original_url", "https://www.zillow.com/homes/")
+    # Add region selection if provided
+    if bounds.get("region_selection"):
+        input_data["searchQueryState"]["regionSelection"] = bounds["region_selection"]
 
-        try:
-            # Initial page visit to get cookies
-            session.get(
-                original_url,
-                timeout=30,
-            )
-        except Exception as e:
-            logger.warning(f"Initial page visit failed: {e}")
+    # Add users search term if provided
+    if bounds.get("users_search_term"):
+        input_data["searchQueryState"]["usersSearchTerm"] = bounds["users_search_term"]
 
-        # Now make the API request with the session cookies
-        headers = {
-            "Accept": "*/*",
-            "Accept-Language": "en-US,en;q=0.9",
-            "Content-Type": "application/json",
-            "Origin": "https://www.zillow.com",
-            "Referer": original_url,
-        }
+    # Build referer URL from bounds
+    referer_url = "https://www.zillow.com/"
+    if bounds.get("original_url"):
+        referer_url = bounds["original_url"]
 
-        response = session.put(
+    headers = {
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "application/json",
+        "Origin": "https://www.zillow.com",
+        "Referer": referer_url,
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+    }
+
+    # Load cookies from browser export
+    cookies = load_cookies()
+    if not cookies:
+        print(
+            f"No cookies found. Please export cookies from your browser to: {COOKIES_FILE}\n"
+            "Use the 'Cookie-Editor' Firefox extension and export as JSON."
+        )
+
+    page = 1
+    last_page = float('inf')
+    search_results = {
+        'listResults': [],
+        'mapResults': [],
+    }
+    while page < last_page:
+        print(f'Searching for page {page} out of {last_page}')
+
+        input_data["searchQueryState"]["pagination"] = {"currentPage": page}
+
+        response = requests.put(
             url=ZILLOW_SEARCH_URL,
             json=input_data,
             headers=headers,
+            cookies=cookies,
+            impersonate="firefox135",
             timeout=60,
         )
-
+        
         response.raise_for_status()
         data = response.json()
+        current_search_results = data.get("cat1", {}).get("searchResults", {})
+        search_results['listResults'].extend(current_search_results.get('listResults', []))
+        search_results['mapResults'].extend(current_search_results.get('mapResults', []))
+        
+        print("Last page=", data['cat1']['searchList']['totalPages'])
+        if last_page == float('inf'):
+            last_page = data['cat1']['searchList']['totalPages']
+        
+        time.sleep(0.5)
 
-        return data.get("cat1", {}).get("searchResults", {})
+        page += 1
+
+    return search_results # data.get("cat1", {}).get("searchResults", {})
 
 
 # Async wrapper for FastAPI

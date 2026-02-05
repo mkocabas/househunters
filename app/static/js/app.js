@@ -56,6 +56,7 @@ const ALL_COLUMNS = {
     latitude: 'Latitude',
     longitude: 'Longitude',
     mortgageEstimate: 'Est. Mortgage',
+    zillowUrl: 'Zillow URL',
 };
 
 // DOM Elements
@@ -613,13 +614,15 @@ function renderTable() {
                 value = formatPrice(mortgage) + '/mo';
                 td.classList.add('mortgage');
             } else if (col === 'schoolRatings') {
-                // Show loading spinner or rating
+                // Show loading spinner only if fetch schools is enabled
                 if (property.schoolRatingsDisplay) {
                     td.textContent = property.schoolRatingsDisplay;
-                } else {
+                } else if (elements.fetchSchoolsToggle.checked) {
                     const spinner = document.createElement('span');
                     spinner.className = 'cell-loading';
                     td.appendChild(spinner);
+                } else {
+                    td.textContent = '-';
                 }
                 tr.appendChild(td);
                 return; // Skip the default textContent assignment
@@ -644,6 +647,11 @@ function renderTable() {
             } else if (col === 'address') {
                 td.classList.add('address');
                 td.title = value || '';
+            } else if (col === 'zillowUrl') {
+                const detailUrl = property.detailUrl || '';
+                value = detailUrl.startsWith('http') ? detailUrl : 'https://www.zillow.com' + detailUrl;
+                td.classList.add('url');
+                td.title = value;
             }
 
             td.textContent = value ?? '-';
@@ -953,12 +961,22 @@ async function exportResults(format) {
                 const rent = getPrice(property);
                 const estimate = getNestedValue(property, 'rentZestimate');
                 row[col] = (rent && estimate) ? rent - estimate : '';
+            } else if (col === 'zillowUrl') {
+                // Skip here, we'll add it at the end
             } else {
                 row[col] = getNestedValue(property, col) ?? '';
             }
         });
+        // Always include Zillow URL regardless of column selection
+        const detailUrl = property.detailUrl || '';
+        row['zillowUrl'] = detailUrl.startsWith('http') ? detailUrl : 'https://www.zillow.com' + detailUrl;
         return row;
     });
+
+    // Ensure zillowUrl is in the columns list for export
+    const exportColumns = state.visibleColumns.includes('zillowUrl')
+        ? state.visibleColumns
+        : [...state.visibleColumns, 'zillowUrl'];
 
     try {
         const response = await fetch('/api/export', {
@@ -967,7 +985,7 @@ async function exportResults(format) {
             body: JSON.stringify({
                 results: exportData,
                 format: format,
-                columns: state.visibleColumns,
+                columns: exportColumns,
             }),
         });
 

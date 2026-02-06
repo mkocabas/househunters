@@ -812,9 +812,18 @@ td.schoolRatings {
 
 /* Crime Grade Column */
 td.crimeGrade {
-    min-width: 60px;
-    cursor: help;
+    text-align: center;
+}
+
+.crime-grade-badge {
+    display: inline-block;
+    min-width: 32px;
+    padding: 3px 8px;
     border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.3px;
 }
 
 /* Cell Loading Spinner */

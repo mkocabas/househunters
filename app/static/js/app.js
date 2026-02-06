@@ -640,11 +640,14 @@ function renderTable() {
                 if (property.crimeGradeData) {
                     const grade = property.crimeGradeData.overall;
                     if (grade) {
-                        td.textContent = grade;
-                        td.style.backgroundColor = getGradeColor(grade);
-                        td.style.color = 'white';
-                        td.style.fontWeight = '600';
-                        td.style.textAlign = 'center';
+                        // Create a small pill/badge for the grade
+                        const badge = document.createElement('span');
+                        badge.className = 'crime-grade-badge';
+                        badge.textContent = grade;
+                        const [bgColor, textColor] = getGradeColor(grade);
+                        badge.style.backgroundColor = bgColor;
+                        badge.style.color = textColor;
+                        td.appendChild(badge);
                         // Tooltip with details
                         const details = property.crimeGradeData.details;
                         if (details) {
@@ -785,23 +788,24 @@ function formatHomeType(type) {
 }
 
 function getGradeColor(grade) {
-    // Grade order from best (green) to worst (red)
+    // Gradient from green (safe) to red (dangerous)
+    // Returns [backgroundColor, textColor]
     const gradeColors = {
-        'A+': '#15803d', // dark green
-        'A':  '#16a34a', // green
-        'A-': '#22c55e', // light green
-        'B+': '#84cc16', // lime
-        'B':  '#a3e635', // yellow-green
-        'B-': '#facc15', // yellow
-        'C+': '#fbbf24', // amber
-        'C':  '#f97316', // orange
-        'C-': '#fb923c', // light orange
-        'D+': '#ef4444', // red
-        'D':  '#dc2626', // darker red
-        'D-': '#b91c1c', // even darker red
-        'F':  '#7f1d1d', // darkest red
+        'A+': ['#15803d', '#ffffff'], // dark green, white text
+        'A':  ['#16a34a', '#ffffff'], // dark green, white text
+        'A-': ['#22c55e', '#ffffff'], // green, white text
+        'B+': ['#4ade80', '#166534'], // light green, dark green text
+        'B':  ['#86efac', '#166534'], // lighter green, dark green text
+        'B-': ['#bef264', '#365314'], // lime, dark text
+        'C+': ['#facc15', '#713f12'], // yellow, dark text
+        'C':  ['#fbbf24', '#78350f'], // amber, dark text
+        'C-': ['#f59e0b', '#ffffff'], // dark amber, white text
+        'D+': ['#f97316', '#ffffff'], // orange, white text
+        'D':  ['#ea580c', '#ffffff'], // dark orange, white text
+        'D-': ['#dc2626', '#ffffff'], // red, white text
+        'F':  ['#b91c1c', '#ffffff'], // dark red, white text
     };
-    return gradeColors[grade] || '#6b7280'; // gray for unknown
+    return gradeColors[grade] || ['#9ca3af', '#ffffff'];
 }
 
 // Grade order for sorting (lower = better)
@@ -892,9 +896,6 @@ async function fetchSchoolRatings() {
                         cell.textContent = data.schoolRatingsDisplay;
                     }
                 }
-
-                // Apply filters after each fetch
-                applySchoolFilters();
             }
         } catch (error) {
             console.error(`Failed to fetch details for zpid ${zpid}:`, error);
@@ -903,6 +904,14 @@ async function fetchSchoolRatings() {
     }
 
     state.schoolRatingsLoading = false;
+
+    // Apply filters once at the end (only if filters are active)
+    const minE = elements.minElementary.value ? parseInt(elements.minElementary.value) : null;
+    const minM = elements.minMiddle.value ? parseInt(elements.minMiddle.value) : null;
+    const minH = elements.minHigh.value ? parseInt(elements.minHigh.value) : null;
+    if (minE || minM || minH) {
+        applySchoolFilters();
+    }
 }
 
 async function fetchCrimeGrades() {
@@ -925,10 +934,34 @@ async function fetchCrimeGrades() {
                 for (const property of state.results) {
                     if (String(getNestedValue(property, 'addressZipcode')) === zipcode) {
                         property.crimeGradeData = data;
+
+                        // Update the cell directly without full re-render
+                        const zpid = getZpid(property);
+                        const row = document.querySelector(`tr[data-zpid="${zpid}"]`);
+                        if (row) {
+                            const cell = row.querySelector('td.crimeGrade');
+                            if (cell) {
+                                cell.innerHTML = '';
+                                const grade = data.overall;
+                                if (grade) {
+                                    const badge = document.createElement('span');
+                                    badge.className = 'crime-grade-badge';
+                                    badge.textContent = grade;
+                                    const [bgColor, textColor] = getGradeColor(grade);
+                                    badge.style.backgroundColor = bgColor;
+                                    badge.style.color = textColor;
+                                    cell.appendChild(badge);
+                                    // Tooltip with details
+                                    if (data.details) {
+                                        cell.title = `Violent: ${data.details.violent || '-'}\nProperty: ${data.details.property || '-'}\nOther: ${data.details.other || '-'}`;
+                                    }
+                                } else {
+                                    cell.textContent = '-';
+                                }
+                            }
+                        }
                     }
                 }
-                // Re-render to show updated grades
-                renderTable();
             }
         } catch (error) {
             console.error(`Failed to fetch crime grade for ${zipcode}:`, error);
@@ -941,10 +974,13 @@ function applySchoolFilters() {
     const minM = elements.minMiddle.value ? parseInt(elements.minMiddle.value) : null;
     const minH = elements.minHigh.value ? parseInt(elements.minHigh.value) : null;
 
-    // If no filters set, show all
+    // If no filters set, show all without re-render
     if (!minE && !minM && !minH) {
+        const needsUpdate = state.filteredResults.length !== state.results.length;
         state.filteredResults = [...state.results];
-        renderTable();
+        if (needsUpdate) {
+            renderTable();
+        }
         return;
     }
 

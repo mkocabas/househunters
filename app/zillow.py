@@ -2,17 +2,40 @@
 Zillow API wrapper using curl_cffi for browser impersonation.
 """
 import json
+import logging
+import os
 import re
 import time
-import logging
 from pathlib import Path
 from typing import Any
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
-from curl_cffi import requests
+import urllib3
 from curl_cffi.requests import Session
+from dotenv import load_dotenv
+
+# Suppress SSL warnings for proxy
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Load environment variables
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 logger = logging.getLogger(__name__)
+
+# Bright Data proxy configuration
+BRIGHTDATA_HOST = os.environ.get("BRIGHTDATA_HOST", "brd.superproxy.io")
+BRIGHTDATA_PORT = int(os.environ.get("BRIGHTDATA_PORT", "33335"))
+BRIGHTDATA_USERNAME = os.environ.get("BRIGHTDATA_USERNAME")
+BRIGHTDATA_PASSWORD = os.environ.get("BRIGHTDATA_PASSWORD")
+USE_PROXY = os.environ.get("USE_ZILLOW_PROXY", "true").lower() == "true"
+
+
+def get_proxy_url() -> str | None:
+    """Build Bright Data proxy URL if credentials are configured."""
+    if not USE_PROXY or not BRIGHTDATA_USERNAME or not BRIGHTDATA_PASSWORD:
+        return None
+    encoded_password = quote(BRIGHTDATA_PASSWORD, safe='')
+    return f"http://{BRIGHTDATA_USERNAME}:{encoded_password}@{BRIGHTDATA_HOST}:{BRIGHTDATA_PORT}"
 
 ZILLOW_SEARCH_URL = "https://www.zillow.com/async-create-search-page-state"
 COOKIES_FILE = Path(__file__).parent / "zillow_cookies.json"
@@ -198,6 +221,15 @@ def search_properties(
         input_data["searchQueryState"]["customRegionId"] = bounds["custom_region_id"]
 
     # Use a session to maintain cookies
+    proxy_url = get_proxy_url()
+    proxies = {"http": proxy_url, "https": proxy_url} if proxy_url else None
+    verify_ssl = not proxy_url  # Disable SSL verification when using proxy
+
+    if proxy_url:
+        logger.info("Using Bright Data proxy for Zillow requests")
+    else:
+        logger.info("Making direct Zillow requests (no proxy)")
+
     with Session(impersonate="chrome") as session:
         # First, visit the original Zillow page to get cookies
         original_url = bounds.get("original_url", "https://www.zillow.com/homes/")
@@ -206,6 +238,8 @@ def search_properties(
             # Initial page visit to get cookies
             session.get(
                 original_url,
+                proxies=proxies,
+                verify=verify_ssl,
                 timeout=30,
             )
         except Exception as e:
@@ -235,6 +269,8 @@ def search_properties(
                 url=ZILLOW_SEARCH_URL,
                 json=input_data,
                 headers=headers,
+                proxies=proxies,
+                verify=verify_ssl,
                 timeout=60,
             )
             

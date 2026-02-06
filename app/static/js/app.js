@@ -873,34 +873,64 @@ async function fetchSchoolRatings() {
     if (state.schoolRatingsLoading) return;
     state.schoolRatingsLoading = true;
 
-    for (const property of state.results) {
+    // Collect properties that need school ratings
+    const propertiesToFetch = state.results.filter(property => {
         const zpid = getZpid(property);
-        if (!zpid || property.schoolRatingsDisplay) continue;
+        return zpid && !property.schoolRatingsDisplay;
+    });
 
+    // Process in parallel with concurrency limit
+    const CONCURRENT_LIMIT = 6;
+    const MAX_RETRIES = 3;
+
+    const fetchWithRetry = async (url, retries = MAX_RETRIES) => {
+        for (let attempt = 1; attempt <= retries; attempt++) {
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    return await response.json();
+                }
+                // Non-OK response, throw to trigger retry
+                throw new Error(`HTTP ${response.status}`);
+            } catch (error) {
+                if (attempt === retries) {
+                    throw error; // Final attempt failed
+                }
+                // Wait before retry (exponential backoff: 1s, 2s, 4s)
+                await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt - 1)));
+            }
+        }
+    };
+
+    const fetchProperty = async (property) => {
+        const zpid = getZpid(property);
         try {
-            const response = await fetch(`/api/details/${zpid}`);
-            if (response.ok) {
-                const data = await response.json();
+            const data = await fetchWithRetry(`/api/details/${zpid}`);
 
-                // Store school data on the property
-                property.schoolRatings = data.schools;
-                property.schoolRatingsTotal = data.schoolRatingsTotal;
-                property.schoolRatingsDisplay = data.schoolRatingsDisplay;
+            // Store school data on the property
+            property.schoolRatings = data.schools;
+            property.schoolRatingsTotal = data.schoolRatingsTotal;
+            property.schoolRatingsDisplay = data.schoolRatingsDisplay;
 
-                // Update the cell directly without full re-render
-                const row = document.querySelector(`tr[data-zpid="${zpid}"]`);
-                if (row) {
-                    const cell = row.querySelector('td.schoolRatings');
-                    if (cell) {
-                        cell.innerHTML = '';
-                        cell.textContent = data.schoolRatingsDisplay;
-                    }
+            // Update the cell directly without full re-render
+            const row = document.querySelector(`tr[data-zpid="${zpid}"]`);
+            if (row) {
+                const cell = row.querySelector('td.schoolRatings');
+                if (cell) {
+                    cell.innerHTML = '';
+                    cell.textContent = data.schoolRatingsDisplay;
                 }
             }
         } catch (error) {
-            console.error(`Failed to fetch details for zpid ${zpid}:`, error);
+            console.error(`Failed to fetch details for zpid ${zpid} after ${MAX_RETRIES} attempts:`, error);
             property.schoolRatingsDisplay = '-/-/-';
         }
+    };
+
+    // Process in batches of CONCURRENT_LIMIT
+    for (let i = 0; i < propertiesToFetch.length; i += CONCURRENT_LIMIT) {
+        const batch = propertiesToFetch.slice(i, i + CONCURRENT_LIMIT);
+        await Promise.all(batch.map(fetchProperty));
     }
 
     state.schoolRatingsLoading = false;

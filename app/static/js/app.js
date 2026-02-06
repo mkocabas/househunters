@@ -933,6 +933,15 @@ async function fetchSchoolRatings() {
         await Promise.all(batch.map(fetchProperty));
     }
 
+    // Save cache to disk after all fetches complete
+    if (propertiesToFetch.length > 0) {
+        try {
+            await fetch('/api/save-school-cache', { method: 'POST' });
+        } catch (error) {
+            console.error('Failed to save school cache:', error);
+        }
+    }
+
     state.schoolRatingsLoading = false;
 
     // Apply filters once at the end (only if filters are active)

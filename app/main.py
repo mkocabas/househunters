@@ -16,7 +16,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 from zillow import parse_bounds_from_url, search_properties_async
-from details import get_property_details_by_zpid_async
+from details import get_property_details_by_zpid_async, save_school_cache
 
 app = FastAPI(title="HouseHunters", version="2.0.0")
 
@@ -238,6 +238,13 @@ async def get_crime_grade(zipcode: str):
             "other": grade_data.get("other crime"),
         }
     }
+
+
+@app.post("/api/save-school-cache")
+async def save_cache():
+    """Save the school ratings cache to disk."""
+    save_school_cache()
+    return {"success": True}
 
 
 @app.get("/api/saved-searches")

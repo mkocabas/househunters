@@ -2,10 +2,12 @@
 Property details fetcher using Bright Data Web Unlocker.
 Fetches detailed property information from Zillow using property ID or URL.
 """
+import atexit
 import json
 import logging
 import os
 import re
+import threading
 from html import unescape
 from json import loads
 from pathlib import Path
@@ -35,8 +37,11 @@ if not BRIGHTDATA_USERNAME or not BRIGHTDATA_PASSWORD:
 
 REQUEST_TIMEOUT = 60
 
-# Cache configuration
+# Cache configuration - thread-safe in-memory cache with disk persistence
 CACHE_FILE = Path(__file__).parent / "data" / "school_cache.json"
+_cache: dict = {}
+_cache_lock = threading.Lock()
+_cache_dirty = False  # Track if cache needs to be saved
 
 # Regex for cleaning whitespace
 REGEX_SPACE = re.compile(r"[\s ]+")
@@ -47,25 +52,61 @@ def _remove_space(value: str) -> str:
     return REGEX_SPACE.sub(" ", value.strip())
 
 
-def _load_cache() -> dict:
-    """Load the school ratings cache from disk."""
+def _init_cache() -> None:
+    """Initialize the in-memory cache from disk (called once at module load)."""
+    global _cache
     if CACHE_FILE.exists():
         try:
             with open(CACHE_FILE) as f:
-                return json.load(f)
+                _cache = json.load(f)
+            logger.info(f"Loaded {len(_cache)} entries from school cache")
         except (json.JSONDecodeError, IOError) as e:
             logger.warning(f"Failed to load cache: {e}")
-    return {}
+            _cache = {}
+    else:
+        _cache = {}
 
 
-def _save_cache(cache: dict) -> None:
-    """Save the school ratings cache to disk."""
-    try:
-        CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
-        with open(CACHE_FILE, "w") as f:
-            json.dump(cache, f, indent=2)
-    except IOError as e:
-        logger.error(f"Failed to save cache: {e}")
+def _save_cache_to_disk() -> None:
+    """Save the in-memory cache to disk (thread-safe)."""
+    global _cache_dirty
+    with _cache_lock:
+        if not _cache_dirty:
+            return
+        try:
+            CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            with open(CACHE_FILE, "w") as f:
+                json.dump(_cache, f, indent=2)
+            _cache_dirty = False
+            logger.info(f"Saved {len(_cache)} entries to school cache")
+        except IOError as e:
+            logger.error(f"Failed to save cache: {e}")
+
+
+def _cache_get(zpid: str) -> dict | None:
+    """Thread-safe cache lookup."""
+    with _cache_lock:
+        return _cache.get(zpid)
+
+
+def _cache_set(zpid: str, data: dict) -> None:
+    """Thread-safe cache insert."""
+    global _cache_dirty
+    with _cache_lock:
+        _cache[zpid] = data
+        _cache_dirty = True
+
+
+def save_school_cache() -> None:
+    """Public function to force save the cache to disk."""
+    _save_cache_to_disk()
+
+
+# Initialize cache at module load
+_init_cache()
+
+# Save cache when the process exits
+atexit.register(_save_cache_to_disk)
 
 
 def _get_nested_value(dic: dict, key_path: str, default=None) -> Any:
@@ -177,21 +218,20 @@ def get_property_details_by_zpid(zpid: int | str) -> dict[str, Any]:
     """
     zpid_str = str(zpid)
 
-    # Check cache first
-    cache = _load_cache()
-    if zpid_str in cache:
+    # Check cache first (thread-safe)
+    cached = _cache_get(zpid_str)
+    if cached is not None:
         logger.info(f"Cache hit for zpid: {zpid_str}")
-        return cache[zpid_str]
+        return cached
 
     # Fetch from API
     logger.info(f"Cache miss for zpid: {zpid_str}, fetching from API")
     home_url = f"https://www.zillow.com/homedetails/property/{zpid_str}_zpid/"
     details = get_property_details_by_url(home_url)
 
-    # Save to cache
+    # Save to cache (thread-safe)
     if details:
-        cache[zpid_str] = details
-        _save_cache(cache)
+        _cache_set(zpid_str, details)
 
     return details
 

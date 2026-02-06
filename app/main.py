@@ -29,6 +29,23 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
+# Crime grades cache (loaded at startup)
+CRIME_GRADES_FILE = DATA_DIR / "crime_grades.json"
+crime_grades_cache: dict = {}
+
+def load_crime_grades():
+    """Load crime grades from JSON file into memory cache."""
+    global crime_grades_cache
+    if CRIME_GRADES_FILE.exists():
+        try:
+            with open(CRIME_GRADES_FILE) as f:
+                crime_grades_cache = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            crime_grades_cache = {}
+
+# Load crime grades at startup
+load_crime_grades()
+
 
 class SearchRequest(BaseModel):
     zillow_url: str
@@ -204,6 +221,23 @@ async def get_property_details(zpid: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/crime-grade/{zipcode}")
+async def get_crime_grade(zipcode: str):
+    """Get crime grade for a zipcode."""
+    grade_data = crime_grades_cache.get(zipcode)
+    if not grade_data:
+        return {"zipcode": zipcode, "overall": None, "details": None}
+    return {
+        "zipcode": zipcode,
+        "overall": grade_data.get("overall"),
+        "details": {
+            "violent": grade_data.get("violent crime"),
+            "property": grade_data.get("property crime"),
+            "other": grade_data.get("other crime"),
+        }
+    }
 
 
 @app.get("/api/saved-searches")

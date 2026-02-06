@@ -31,6 +31,7 @@ const DEFAULT_COLUMNS = [
     'area',
     'homeType',
     'schoolRatings',
+    'crimeGrade',
 ];
 
 // All available columns with display names
@@ -46,6 +47,7 @@ const ALL_COLUMNS = {
     homeType: 'Type',
     statusText: 'Status',
     schoolRatings: 'Schools',
+    crimeGrade: 'Crime Grade',
     zestimate: 'Zestimate',
     rentZestimate: 'Rent Estimate',
     rentDiff: 'Rent vs Estimate',
@@ -466,6 +468,8 @@ async function performSearch() {
             if (elements.fetchSchoolsToggle.checked) {
                 fetchSchoolRatings();
             }
+            // Fetch crime grades for all properties
+            fetchCrimeGrades();
         } else {
             elements.tableContainer.classList.remove('visible');
             elements.emptyState.classList.remove('hidden');
@@ -555,6 +559,11 @@ function renderTable() {
                 bVal = b.schoolRatingsTotal ?? -1;
             }
 
+            if (state.sortColumn === 'crimeGrade') {
+                aVal = GRADE_ORDER[a.crimeGradeData?.overall] ?? 99;
+                bVal = GRADE_ORDER[b.crimeGradeData?.overall] ?? 99;
+            }
+
             if (state.sortColumn === 'daysOnZillow') {
                 aVal = (aVal === null || aVal === undefined || aVal < 0) ? Infinity : aVal;
                 bVal = (bVal === null || bVal === undefined || bVal < 0) ? Infinity : bVal;
@@ -618,6 +627,34 @@ function renderTable() {
                 if (property.schoolRatingsDisplay) {
                     td.textContent = property.schoolRatingsDisplay;
                 } else if (elements.fetchSchoolsToggle.checked) {
+                    const spinner = document.createElement('span');
+                    spinner.className = 'cell-loading';
+                    td.appendChild(spinner);
+                } else {
+                    td.textContent = '-';
+                }
+                tr.appendChild(td);
+                return; // Skip the default textContent assignment
+            } else if (col === 'crimeGrade') {
+                const zipcode = getNestedValue(property, 'addressZipcode');
+                if (property.crimeGradeData) {
+                    const grade = property.crimeGradeData.overall;
+                    if (grade) {
+                        td.textContent = grade;
+                        td.style.backgroundColor = getGradeColor(grade);
+                        td.style.color = 'white';
+                        td.style.fontWeight = '600';
+                        td.style.textAlign = 'center';
+                        // Tooltip with details
+                        const details = property.crimeGradeData.details;
+                        if (details) {
+                            td.title = `Violent: ${details.violent || '-'}\nProperty: ${details.property || '-'}\nOther: ${details.other || '-'}`;
+                        }
+                    } else {
+                        td.textContent = '-';
+                    }
+                } else if (zipcode) {
+                    // Show loading spinner
                     const spinner = document.createElement('span');
                     spinner.className = 'cell-loading';
                     td.appendChild(spinner);
@@ -747,6 +784,29 @@ function formatHomeType(type) {
     return types[type] || type || '-';
 }
 
+function getGradeColor(grade) {
+    // Grade order from best (green) to worst (red)
+    const gradeColors = {
+        'A+': '#15803d', // dark green
+        'A':  '#16a34a', // green
+        'A-': '#22c55e', // light green
+        'B+': '#84cc16', // lime
+        'B':  '#a3e635', // yellow-green
+        'B-': '#facc15', // yellow
+        'C+': '#fbbf24', // amber
+        'C':  '#f97316', // orange
+        'C-': '#fb923c', // light orange
+        'D+': '#ef4444', // red
+        'D':  '#dc2626', // darker red
+        'D-': '#b91c1c', // even darker red
+        'F':  '#7f1d1d', // darkest red
+    };
+    return gradeColors[grade] || '#6b7280'; // gray for unknown
+}
+
+// Grade order for sorting (lower = better)
+const GRADE_ORDER = {'A+':0,'A':1,'A-':2,'B+':3,'B':4,'B-':5,'C+':6,'C':7,'C-':8,'D+':9,'D':10,'D-':11,'F':12};
+
 function getZpid(property) {
     return property.zpid ||
         property.hdpData?.homeInfo?.zpid ||
@@ -843,6 +903,37 @@ async function fetchSchoolRatings() {
     }
 
     state.schoolRatingsLoading = false;
+}
+
+async function fetchCrimeGrades() {
+    // Collect unique zipcodes from results
+    const zipcodes = new Set();
+    for (const property of state.results) {
+        const zipcode = getNestedValue(property, 'addressZipcode');
+        if (zipcode && !property.crimeGradeData) {
+            zipcodes.add(String(zipcode));
+        }
+    }
+
+    // Fetch grades for each unique zipcode
+    for (const zipcode of zipcodes) {
+        try {
+            const response = await fetch(`/api/crime-grade/${zipcode}`);
+            if (response.ok) {
+                const data = await response.json();
+                // Apply to all properties with this zipcode
+                for (const property of state.results) {
+                    if (String(getNestedValue(property, 'addressZipcode')) === zipcode) {
+                        property.crimeGradeData = data;
+                    }
+                }
+                // Re-render to show updated grades
+                renderTable();
+            }
+        } catch (error) {
+            console.error(`Failed to fetch crime grade for ${zipcode}:`, error);
+        }
+    }
 }
 
 function applySchoolFilters() {
@@ -957,6 +1048,8 @@ async function exportResults(format) {
                 row[col] = Math.round(calculateMortgage(getPrice(property)));
             } else if (col === 'schoolRatings') {
                 row[col] = property.schoolRatingsDisplay || '';
+            } else if (col === 'crimeGrade') {
+                row[col] = property.crimeGradeData?.overall || '';
             } else if (col === 'rentDiff') {
                 const rent = getPrice(property);
                 const estimate = getNestedValue(property, 'rentZestimate');

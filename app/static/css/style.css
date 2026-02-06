@@ -810,6 +810,13 @@ td.schoolRatings {
     white-space: nowrap;
 }
 
+/* Crime Grade Column */
+td.crimeGrade {
+    min-width: 60px;
+    cursor: help;
+    border-radius: 4px;
+}
+
 /* Cell Loading Spinner */
 .cell-loading {
     display: inline-block;

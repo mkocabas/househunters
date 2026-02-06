@@ -1,0 +1,2237 @@
+{
+  "30002": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "C-"
+  },
+  "30004": {
+    "overall": "B",
+    "violent crime": "B",
+    "property crime": "A-",
+    "other crime": "C-"
+  },
+  "30017": {
+    "overall": "B",
+    "violent crime": "A",
+    "property crime": "B+",
+    "other crime": "C-"
+  },
+  "30005": {
+    "overall": "C+",
+    "violent crime": "B",
+    "property crime": "B+",
+    "other crime": "D"
+  },
+  "30022": {
+    "overall": "D+",
+    "violent crime": "C-",
+    "property crime": "B",
+    "other crime": "F"
+  },
+  "30008": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "C-",
+    "other crime": "C"
+  },
+  "30019": {
+    "overall": "A",
+    "violent crime": "A",
+    "property crime": "A+",
+    "other crime": "B+"
+  },
+  "30032": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "D-"
+  },
+  "30043": {
+    "overall": "B+",
+    "violent crime": "A-",
+    "property crime": "A-",
+    "other crime": "B-"
+  },
+  "30040": {
+    "overall": "A+",
+    "violent crime": "A+",
+    "property crime": "A+",
+    "other crime": "B+"
+  },
+  "30024": {
+    "overall": "A-",
+    "violent crime": "A",
+    "property crime": "A",
+    "other crime": "C+"
+  },
+  "30044": {
+    "overall": "A-",
+    "violent crime": "B+",
+    "property crime": "A-",
+    "other crime": "B+"
+  },
+  "30047": {
+    "overall": "B+",
+    "violent crime": "B",
+    "property crime": "B+",
+    "other crime": "B"
+  },
+  "30045": {
+    "overall": "A-",
+    "violent crime": "A",
+    "property crime": "B+",
+    "other crime": "B"
+  },
+  "30062": {
+    "overall": "B",
+    "violent crime": "C+",
+    "property crime": "A-",
+    "other crime": "C-"
+  },
+  "30033": {
+    "overall": "C",
+    "violent crime": "B",
+    "property crime": "C-",
+    "other crime": "C"
+  },
+  "30066": {
+    "overall": "B-",
+    "violent crime": "B-",
+    "property crime": "B+",
+    "other crime": "C-"
+  },
+  "30064": {
+    "overall": "B-",
+    "violent crime": "B",
+    "property crime": "B",
+    "other crime": "C"
+  },
+  "30067": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "B-",
+    "other crime": "C-"
+  },
+  "30046": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "C-",
+    "other crime": "C-"
+  },
+  "30076": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "B-",
+    "other crime": "D"
+  },
+  "30071": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "B"
+  },
+  "30080": {
+    "overall": "D",
+    "violent crime": "F",
+    "property crime": "C-",
+    "other crime": "C-"
+  },
+  "30041": {
+    "overall": "A+",
+    "violent crime": "A+",
+    "property crime": "A+",
+    "other crime": "B"
+  },
+  "30093": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C+",
+    "other crime": "B+"
+  },
+  "30084": {
+    "overall": "C+",
+    "violent crime": "C+",
+    "property crime": "C",
+    "other crime": "B-"
+  },
+  "30092": {
+    "overall": "C",
+    "violent crime": "B-",
+    "property crime": "C",
+    "other crime": "C"
+  },
+  "30060": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "C-",
+    "other crime": "C-"
+  },
+  "30082": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "C-"
+  },
+  "30144": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "C",
+    "other crime": "D"
+  },
+  "30096": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "C"
+  },
+  "30188": {
+    "overall": "B-",
+    "violent crime": "A-",
+    "property crime": "B-",
+    "other crime": "C+"
+  },
+  "30152": {
+    "overall": "B",
+    "violent crime": "D+",
+    "property crime": "A",
+    "other crime": "C-"
+  },
+  "30097": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "C+",
+    "other crime": "D-"
+  },
+  "30189": {
+    "overall": "C",
+    "violent crime": "B+",
+    "property crime": "C",
+    "other crime": "C-"
+  },
+  "30318": {
+    "overall": "D-",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "D"
+  },
+  "30319": {
+    "overall": "C",
+    "violent crime": "B-",
+    "property crime": "C-",
+    "other crime": "C"
+  },
+  "30329": {
+    "overall": "D+",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "C-"
+  },
+  "30340": {
+    "overall": "C+",
+    "violent crime": "C+",
+    "property crime": "C",
+    "other crime": "B-"
+  },
+  "30341": {
+    "overall": "D-",
+    "violent crime": "C",
+    "property crime": "F",
+    "other crime": "D+"
+  },
+  "30328": {
+    "overall": "C-",
+    "violent crime": "C",
+    "property crime": "C",
+    "other crime": "D"
+  },
+  "30115": {
+    "overall": "A",
+    "violent crime": "A-",
+    "property crime": "A",
+    "other crime": "B+"
+  },
+  "30339": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "D"
+  },
+  "30360": {
+    "overall": "C",
+    "violent crime": "B-",
+    "property crime": "C-",
+    "other crime": "C+"
+  },
+  "30317": {
+    "overall": "D+",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "D+"
+  },
+  "30519": {
+    "overall": "B",
+    "violent crime": "A-",
+    "property crime": "B+",
+    "other crime": "C"
+  },
+  "30345": {
+    "overall": "C-",
+    "violent crime": "B-",
+    "property crime": "D+",
+    "other crime": "C-"
+  },
+  "30534": {
+    "overall": "B+",
+    "violent crime": "A",
+    "property crime": "B",
+    "other crime": "B-"
+  },
+  "30518": {
+    "overall": "A-",
+    "violent crime": "A-",
+    "property crime": "A",
+    "other crime": "B-"
+  },
+  "30677": {
+    "overall": "A-",
+    "violent crime": "A",
+    "property crime": "B",
+    "other crime": "A-"
+  },
+  "30342": {
+    "overall": "C-",
+    "violent crime": "C",
+    "property crime": "C-",
+    "other crime": "C-"
+  },
+  "30354": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "F"
+  },
+  "94010": {
+    "overall": "D",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94002": {
+    "overall": "D+",
+    "violent crime": "C",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94014": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A"
+  },
+  "93635": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94005": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "A-"
+  },
+  "94018": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "94020": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A"
+  },
+  "94015": {
+    "overall": "C+",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "94021": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "A"
+  },
+  "94019": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94022": {
+    "overall": "C+",
+    "violent crime": "B-",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "94025": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "C-",
+    "other crime": "B"
+  },
+  "94024": {
+    "overall": "B+",
+    "violent crime": "B",
+    "property crime": "C+",
+    "other crime": "A+"
+  },
+  "94027": {
+    "overall": "D",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94028": {
+    "overall": "B",
+    "violent crime": "D+",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "94030": {
+    "overall": "D+",
+    "violent crime": "C-",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94080": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94571": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94035": null,
+  "94108": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94037": {
+    "overall": "B",
+    "violent crime": "D+",
+    "property crime": "C+",
+    "other crime": "A"
+  },
+  "94112": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "B-"
+  },
+  "94114": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D+"
+  },
+  "94111": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "F"
+  },
+  "94044": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94043": {
+    "overall": "D",
+    "violent crime": "C",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94060": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94038": {
+    "overall": "C+",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94061": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C+",
+    "other crime": "B-"
+  },
+  "94041": {
+    "overall": "D",
+    "violent crime": "C",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94062": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "B"
+  },
+  "94063": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "C"
+  },
+  "94066": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94065": {
+    "overall": "C+",
+    "violent crime": "C+",
+    "property crime": "C-",
+    "other crime": "B+"
+  },
+  "94070": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "B"
+  },
+  "94040": {
+    "overall": "C-",
+    "violent crime": "C+",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94085": {
+    "overall": "B-",
+    "violent crime": "C+",
+    "property crime": "C-",
+    "other crime": "A"
+  },
+  "94074": {
+    "overall": "D",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "A-"
+  },
+  "94087": {
+    "overall": "A-",
+    "violent crime": "B+",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "94086": {
+    "overall": "A-",
+    "violent crime": "B-",
+    "property crime": "B",
+    "other crime": "A+"
+  },
+  "94089": {
+    "overall": "A-",
+    "violent crime": "B+",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "94103": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94105": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94102": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94107": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94104": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "F"
+  },
+  "94109": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94115": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D"
+  },
+  "94110": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D+"
+  },
+  "94116": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "C"
+  },
+  "94402": {
+    "overall": "C+",
+    "violent crime": "C",
+    "property crime": "C",
+    "other crime": "B+"
+  },
+  "94403": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "B"
+  },
+  "94404": {
+    "overall": "C",
+    "violent crime": "C+",
+    "property crime": "D+",
+    "other crime": "B"
+  },
+  "94501": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94121": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "D+"
+  },
+  "94117": {
+    "overall": "F",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "D+"
+  },
+  "94118": {
+    "overall": "F",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "D"
+  },
+  "94123": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94122": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "C-"
+  },
+  "94124": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "C"
+  },
+  "94127": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "C"
+  },
+  "94128": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "F"
+  },
+  "94129": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D"
+  },
+  "94130": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D"
+  },
+  "94131": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "C-"
+  },
+  "94132": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94133": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94134": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "C+"
+  },
+  "94548": {
+    "overall": "B+",
+    "violent crime": "C+",
+    "property crime": "B-",
+    "other crime": "A-"
+  },
+  "94502": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94503": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94505": {
+    "overall": "A-",
+    "violent crime": "B",
+    "property crime": "B+",
+    "other crime": "A"
+  },
+  "94506": {
+    "overall": "A-",
+    "violent crime": "A-",
+    "property crime": "B+",
+    "other crime": "A-"
+  },
+  "94508": {
+    "overall": "D+",
+    "violent crime": "F",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94507": {
+    "overall": "B-",
+    "violent crime": "B",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94509": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "94511": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94510": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94515": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94513": {
+    "overall": "B+",
+    "violent crime": "B-",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "94549": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "D",
+    "other crime": "A"
+  },
+  "94512": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94550": {
+    "overall": "C+",
+    "violent crime": "C",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94514": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94143": null,
+  "94555": {
+    "overall": "B",
+    "violent crime": "B+",
+    "property crime": "C+",
+    "other crime": "A-"
+  },
+  "94551": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94558": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "B-"
+  },
+  "94559": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "94560": {
+    "overall": "C",
+    "violent crime": "C+",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94561": {
+    "overall": "B",
+    "violent crime": "C+",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "94563": {
+    "overall": "C+",
+    "violent crime": "B-",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94564": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94565": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94567": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "C+"
+  },
+  "94566": {
+    "overall": "B",
+    "violent crime": "B-",
+    "property crime": "C",
+    "other crime": "A"
+  },
+  "94568": {
+    "overall": "B",
+    "violent crime": "B",
+    "property crime": "C+",
+    "other crime": "A"
+  },
+  "94569": {
+    "overall": "C+",
+    "violent crime": "C",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94552": {
+    "overall": "B-",
+    "violent crime": "C+",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94301": {
+    "overall": "F",
+    "violent crime": "D+",
+    "property crime": "F",
+    "other crime": "B-"
+  },
+  "94158": {
+    "overall": "F",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "94303": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "B+"
+  },
+  "94304": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D+"
+  },
+  "94572": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94574": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94518": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94517": {
+    "overall": "B",
+    "violent crime": "C+",
+    "property crime": "C+",
+    "other crime": "A-"
+  },
+  "94519": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94520": {
+    "overall": "D",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94521": {
+    "overall": "C+",
+    "violent crime": "C+",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94523": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94525": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "94526": {
+    "overall": "B-",
+    "violent crime": "B",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94305": {
+    "overall": "D-",
+    "violent crime": "C",
+    "property crime": "F",
+    "other crime": "A"
+  },
+  "94306": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94401": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "B"
+  },
+  "94528": {
+    "overall": "A-",
+    "violent crime": "A+",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "94530": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94531": {
+    "overall": "B",
+    "violent crime": "C+",
+    "property crime": "C+",
+    "other crime": "A-"
+  },
+  "94533": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94576": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94534": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94553": {
+    "overall": "D+",
+    "violent crime": "C-",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94577": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94535": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "94538": {
+    "overall": "B-",
+    "violent crime": "B",
+    "property crime": "C",
+    "other crime": "B+"
+  },
+  "94536": {
+    "overall": "B-",
+    "violent crime": "B-",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94539": {
+    "overall": "C",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94541": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "B"
+  },
+  "94544": {
+    "overall": "C+",
+    "violent crime": "C-",
+    "property crime": "C-",
+    "other crime": "B"
+  },
+  "94542": {
+    "overall": "C+",
+    "violent crime": "C-",
+    "property crime": "C",
+    "other crime": "B+"
+  },
+  "94545": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "94546": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "B+"
+  },
+  "94578": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94579": {
+    "overall": "B-",
+    "violent crime": "C-",
+    "property crime": "C",
+    "other crime": "B+"
+  },
+  "94580": {
+    "overall": "C+",
+    "violent crime": "C-",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "94582": {
+    "overall": "A-",
+    "violent crime": "B+",
+    "property crime": "B",
+    "other crime": "A"
+  },
+  "94585": {
+    "overall": "C+",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94583": {
+    "overall": "B-",
+    "violent crime": "B-",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94586": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94588": {
+    "overall": "C-",
+    "violent crime": "B-",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94587": {
+    "overall": "C",
+    "violent crime": "C+",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94589": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94590": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94591": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94592": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "94547": {
+    "overall": "B-",
+    "violent crime": "C+",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94595": {
+    "overall": "C-",
+    "violent crime": "C-",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94556": {
+    "overall": "B",
+    "violent crime": "B-",
+    "property crime": "C+",
+    "other crime": "A"
+  },
+  "94598": {
+    "overall": "C",
+    "violent crime": "C+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94596": {
+    "overall": "D-",
+    "violent crime": "D+",
+    "property crime": "F",
+    "other crime": "A-"
+  },
+  "94597": {
+    "overall": "C-",
+    "violent crime": "C",
+    "property crime": "D",
+    "other crime": "A"
+  },
+  "94599": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "D"
+  },
+  "94602": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94601": {
+    "overall": "D",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94603": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94605": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94607": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "C"
+  },
+  "94608": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "C+"
+  },
+  "94606": {
+    "overall": "D",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "95023": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95032": {
+    "overall": "B",
+    "violent crime": "B+",
+    "property crime": "C",
+    "other crime": "A+"
+  },
+  "95030": {
+    "overall": "D+",
+    "violent crime": "C-",
+    "property crime": "D-",
+    "other crime": "A-"
+  },
+  "95033": {
+    "overall": "B",
+    "violent crime": "C+",
+    "property crime": "C+",
+    "other crime": "A-"
+  },
+  "95035": {
+    "overall": "B",
+    "violent crime": "D-",
+    "property crime": "B+",
+    "other crime": "A"
+  },
+  "95037": {
+    "overall": "B",
+    "violent crime": "C",
+    "property crime": "B-",
+    "other crime": "A-"
+  },
+  "95046": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A"
+  },
+  "95045": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "95050": {
+    "overall": "B+",
+    "violent crime": "C-",
+    "property crime": "B",
+    "other crime": "A"
+  },
+  "95051": {
+    "overall": "A+",
+    "violent crime": "B",
+    "property crime": "A",
+    "other crime": "A+"
+  },
+  "94610": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94609": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "94612": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "C"
+  },
+  "94611": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94613": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "95053": {
+    "overall": "A+",
+    "violent crime": "C+",
+    "property crime": "A",
+    "other crime": "A+"
+  },
+  "94618": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94619": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94621": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94702": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "95111": {
+    "overall": "A-",
+    "violent crime": "C+",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "95110": {
+    "overall": "D+",
+    "violent crime": "F",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94703": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "95112": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94704": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "94705": {
+    "overall": "D",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "95135": {
+    "overall": "A-",
+    "violent crime": "B+",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "95136": {
+    "overall": "B+",
+    "violent crime": "B-",
+    "property crime": "C+",
+    "other crime": "A+"
+  },
+  "94706": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "95138": {
+    "overall": "A-",
+    "violent crime": "C",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "94707": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94708": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "95192": {
+    "overall": "D",
+    "violent crime": "F",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "95206": {
+    "overall": "C",
+    "violent crime": "F",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95219": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95242": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D+"
+  },
+  "95304": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "95322": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "95363": {
+    "overall": "C",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95360": {
+    "overall": "C",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "95377": {
+    "overall": "A",
+    "violent crime": "B",
+    "property crime": "B+",
+    "other crime": "A"
+  },
+  "95403": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "95401": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "95391": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "A+"
+  },
+  "95404": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94709": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "B-"
+  },
+  "94710": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "C"
+  },
+  "94720": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "B-"
+  },
+  "94804": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94803": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94805": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94801": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94901": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94806": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94903": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94904": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94920": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "95405": {
+    "overall": "B-",
+    "violent crime": "D+",
+    "property crime": "C",
+    "other crime": "A"
+  },
+  "95409": {
+    "overall": "B+",
+    "violent crime": "C-",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "95407": {
+    "overall": "B-",
+    "violent crime": "C-",
+    "property crime": "C",
+    "other crime": "A"
+  },
+  "95412": {
+    "overall": "C",
+    "violent crime": "D-",
+    "property crime": "C-",
+    "other crime": "B"
+  },
+  "95446": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95445": {
+    "overall": "F",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "B+"
+  },
+  "95444": {
+    "overall": "B-",
+    "violent crime": "D+",
+    "property crime": "C",
+    "other crime": "A"
+  },
+  "95448": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B-"
+  },
+  "94922": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "95450": {
+    "overall": "C",
+    "violent crime": "D-",
+    "property crime": "C-",
+    "other crime": "B+"
+  },
+  "95449": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "C+"
+  },
+  "94923": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "B-"
+  },
+  "94925": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94928": {
+    "overall": "B-",
+    "violent crime": "D+",
+    "property crime": "C",
+    "other crime": "A"
+  },
+  "94924": {
+    "overall": "D",
+    "violent crime": "D",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "94929": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "94933": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "A"
+  },
+  "94930": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94931": {
+    "overall": "B-",
+    "violent crime": "D",
+    "property crime": "C+",
+    "other crime": "A-"
+  },
+  "94937": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "B-"
+  },
+  "95436": {
+    "overall": "C",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "95426": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "B+"
+  },
+  "95452": {
+    "overall": "C+",
+    "violent crime": "D-",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95457": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "95462": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "95461": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "95465": {
+    "overall": "C",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94938": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94939": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "94940": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "94941": {
+    "overall": "C",
+    "violent crime": "C",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94945": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "94947": {
+    "overall": "B-",
+    "violent crime": "C-",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95471": {
+    "overall": "C+",
+    "violent crime": "D-",
+    "property crime": "C+",
+    "other crime": "A"
+  },
+  "94946": {
+    "overall": "D+",
+    "violent crime": "D+",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "95472": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "95476": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95492": {
+    "overall": "B-",
+    "violent crime": "D+",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95606": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "A"
+  },
+  "95612": {
+    "overall": "D-",
+    "violent crime": "D",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "95497": {
+    "overall": "F",
+    "violent crime": "C-",
+    "property crime": "F",
+    "other crime": "A"
+  },
+  "95607": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "A"
+  },
+  "95615": {
+    "overall": "D",
+    "violent crime": "D+",
+    "property crime": "D-",
+    "other crime": "C+"
+  },
+  "95616": {
+    "overall": "D+",
+    "violent crime": "C",
+    "property crime": "D-",
+    "other crime": "A-"
+  },
+  "94949": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94952": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94954": {
+    "overall": "C+",
+    "violent crime": "C-",
+    "property crime": "C-",
+    "other crime": "A"
+  },
+  "94956": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "94951": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "94960": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "94963": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "94957": {
+    "overall": "C",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95620": {
+    "overall": "C+",
+    "violent crime": "C",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "94970": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "94965": {
+    "overall": "D-",
+    "violent crime": "D",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "94971": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "94964": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "D-",
+    "other crime": "B-"
+  },
+  "95641": {
+    "overall": "F",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "B+"
+  },
+  "95679": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "F",
+    "other crime": "A"
+  },
+  "95687": {
+    "overall": "C-",
+    "violent crime": "C",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "95688": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "D+",
+    "other crime": "B+"
+  },
+  "95694": {
+    "overall": "C",
+    "violent crime": "C-",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "95690": {
+    "overall": "D-",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "C"
+  },
+  "94972": {
+    "overall": "D",
+    "violent crime": "D-",
+    "property crime": "D-",
+    "other crime": "B+"
+  },
+  "94973": {
+    "overall": "C+",
+    "violent crime": "D",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95441": {
+    "overall": "C-",
+    "violent crime": "D+",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95439": {
+    "overall": "F",
+    "violent crime": "D",
+    "property crime": "F",
+    "other crime": "B+"
+  },
+  "95442": {
+    "overall": "C+",
+    "violent crime": "D",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "95002": {
+    "overall": "D+",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "B"
+  },
+  "95006": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B"
+  },
+  "95013": {
+    "overall": "D-",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "B"
+  },
+  "95008": {
+    "overall": "D+",
+    "violent crime": "C",
+    "property crime": "D-",
+    "other crime": "B"
+  },
+  "95014": {
+    "overall": "C+",
+    "violent crime": "B+",
+    "property crime": "D+",
+    "other crime": "A"
+  },
+  "95020": {
+    "overall": "B+",
+    "violent crime": "C-",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "95054": {
+    "overall": "B",
+    "violent crime": "C",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "95060": {
+    "overall": "D+",
+    "violent crime": "D",
+    "property crime": "D",
+    "other crime": "B+"
+  },
+  "95070": {
+    "overall": "B",
+    "violent crime": "B",
+    "property crime": "C",
+    "other crime": "A+"
+  },
+  "95076": {
+    "overall": "C-",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95113": {
+    "overall": "F",
+    "violent crime": "F",
+    "property crime": "F",
+    "other crime": "D-"
+  },
+  "95116": {
+    "overall": "B+",
+    "violent crime": "C-",
+    "property crime": "B-",
+    "other crime": "A+"
+  },
+  "95117": {
+    "overall": "B+",
+    "violent crime": "B-",
+    "property crime": "B",
+    "other crime": "A"
+  },
+  "95118": {
+    "overall": "B+",
+    "violent crime": "B-",
+    "property crime": "C+",
+    "other crime": "A"
+  },
+  "95119": {
+    "overall": "B-",
+    "violent crime": "D-",
+    "property crime": "C+",
+    "other crime": "A+"
+  },
+  "95120": {
+    "overall": "A+",
+    "violent crime": "A-",
+    "property crime": "A",
+    "other crime": "A+"
+  },
+  "95121": {
+    "overall": "A",
+    "violent crime": "C+",
+    "property crime": "B",
+    "other crime": "A+"
+  },
+  "95123": {
+    "overall": "B",
+    "violent crime": "C",
+    "property crime": "C+",
+    "other crime": "A+"
+  },
+  "95122": {
+    "overall": "C+",
+    "violent crime": "D+",
+    "property crime": "C-",
+    "other crime": "A"
+  },
+  "95124": {
+    "overall": "B+",
+    "violent crime": "B-",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "95125": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C",
+    "other crime": "A"
+  },
+  "95127": {
+    "overall": "B+",
+    "violent crime": "C",
+    "property crime": "C+",
+    "other crime": "A+"
+  },
+  "95128": {
+    "overall": "D",
+    "violent crime": "F",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "95129": {
+    "overall": "B+",
+    "violent crime": "B+",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "95126": {
+    "overall": "C+",
+    "violent crime": "D",
+    "property crime": "C",
+    "other crime": "A-"
+  },
+  "95130": {
+    "overall": "B+",
+    "violent crime": "A-",
+    "property crime": "B-",
+    "other crime": "A"
+  },
+  "95131": {
+    "overall": "B+",
+    "violent crime": "B-",
+    "property crime": "C+",
+    "other crime": "A"
+  },
+  "95132": {
+    "overall": "A",
+    "violent crime": "B",
+    "property crime": "B",
+    "other crime": "A+"
+  },
+  "95618": {
+    "overall": "C-",
+    "violent crime": "C+",
+    "property crime": "D",
+    "other crime": "A-"
+  },
+  "95133": {
+    "overall": "A-",
+    "violent crime": "C+",
+    "property crime": "B+",
+    "other crime": "A+"
+  },
+  "95134": {
+    "overall": "B-",
+    "violent crime": "C",
+    "property crime": "C-",
+    "other crime": "A-"
+  },
+  "95140": {
+    "overall": "D+",
+    "violent crime": "F",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95141": {
+    "overall": "C-",
+    "violent crime": "D-",
+    "property crime": "D+",
+    "other crime": "A-"
+  },
+  "95148": {
+    "overall": "A",
+    "violent crime": "B",
+    "property crime": "B+",
+    "other crime": "A+"
+  },
+  "95419": null,
+  "95421": {
+    "overall": "C",
+    "violent crime": "D-",
+    "property crime": "C-",
+    "other crime": "B+"
+  },
+  "95139": {
+    "overall": "A",
+    "violent crime": "B-",
+    "property crime": "A-",
+    "other crime": "A+"
+  },
+  "95425": {
+    "overall": "C",
+    "violent crime": "D",
+    "property crime": "D+",
+    "other crime": "A-"
+  }
+}

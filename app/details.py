@@ -1,5 +1,5 @@
 """
-Property details fetcher using Scraper API.
+Property details fetcher using Bright Data Web Unlocker.
 Fetches detailed property information from Zillow using property ID or URL.
 """
 import json
@@ -10,16 +10,29 @@ from html import unescape
 from json import loads
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 import requests
+from dotenv import load_dotenv
+import urllib3
+
+# Suppress SSL warnings for Bright Data proxy
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Load environment variables from .env file
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 logger = logging.getLogger(__name__)
 
-# Configuration
-SCRAPER_API_KEY = os.environ.get("SCRAPER_API_KEY")
-if not SCRAPER_API_KEY:
-    logger.warning("SCRAPER_API_KEY environment variable not set - school ratings will fail")
-SCRAPER_API_URL = "https://api.scraperapi.com/"
+# Configuration - Bright Data Web Unlocker
+BRIGHTDATA_HOST = os.environ.get("BRIGHTDATA_HOST", "brd.superproxy.io")
+BRIGHTDATA_PORT = int(os.environ.get("BRIGHTDATA_PORT", "33335"))
+BRIGHTDATA_USERNAME = os.environ.get("BRIGHTDATA_USERNAME")
+BRIGHTDATA_PASSWORD = os.environ.get("BRIGHTDATA_PASSWORD")
+
+if not BRIGHTDATA_USERNAME or not BRIGHTDATA_PASSWORD:
+    logger.warning("BRIGHTDATA_USERNAME or BRIGHTDATA_PASSWORD not set - school ratings will fail")
+
 REQUEST_TIMEOUT = 60
 
 # Cache configuration
@@ -69,21 +82,29 @@ def _get_nested_value(dic: dict, key_path: str, default=None) -> Any:
     return current
 
 
-def _make_scraperapi_request(target_url: str) -> requests.Response:
-    """Makes a request to the target URL via ScraperAPI."""
-    payload = {
-        "api_key": SCRAPER_API_KEY,
-        "url": target_url,
-    }
+def _make_brightdata_request(target_url: str) -> requests.Response:
+    """Makes a request to the target URL via Bright Data Web Unlocker proxy."""
+    if not BRIGHTDATA_USERNAME or not BRIGHTDATA_PASSWORD:
+        raise RuntimeError("Bright Data credentials not configured")
+
+    # Encode password in case it contains special characters
+    encoded_password = quote(BRIGHTDATA_PASSWORD, safe='')
+    proxy_url = f"http://{BRIGHTDATA_USERNAME}:{encoded_password}@{BRIGHTDATA_HOST}:{BRIGHTDATA_PORT}"
+    proxies = {"http": proxy_url, "https": proxy_url}
 
     try:
-        response = requests.get(SCRAPER_API_URL, params=payload, timeout=REQUEST_TIMEOUT)
+        response = requests.get(
+            target_url,
+            proxies=proxies,
+            verify=False,  # Bright Data may require this for SSL
+            timeout=REQUEST_TIMEOUT
+        )
         response.raise_for_status()
         return response
     except requests.exceptions.RequestException as e:
         status_code = e.response.status_code if e.response is not None else "N/A"
         response_text = e.response.text[:200] if e.response is not None else "N/A"
-        logger.error(f"Error fetching {target_url} via ScraperAPI. Status Code: {status_code}")
+        logger.error(f"Error fetching {target_url} via Bright Data. Status Code: {status_code}")
         logger.error(f"Exception Type: {type(e).__name__}")
         logger.error(f"Response Body (first 200 chars): {response_text}")
         raise
@@ -186,7 +207,7 @@ def get_property_details_by_url(home_url: str) -> dict[str, Any]:
         Dictionary containing detailed property information
     """
     logger.info(f"Fetching property details from: {home_url}")
-    response = _make_scraperapi_request(home_url)
+    response = _make_brightdata_request(home_url)
     data = _parse_property_data(response.content)
     return data
 
